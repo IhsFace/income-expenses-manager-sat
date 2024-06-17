@@ -1,0 +1,16 @@
+C:\Users\ihsaa\Projects\income-expenses-manager-sat\income-expenses-manager-sat\income-expenses-manager-sat\bin\Debug\net8.0-windows\income-expenses-manager-sat.exe
+C:\Users\ihsaa\Projects\income-expenses-manager-sat\income-expenses-manager-sat\income-expenses-manager-sat\bin\Debug\net8.0-windows\income-expenses-manager-sat.deps.json
+C:\Users\ihsaa\Projects\income-expenses-manager-sat\income-expenses-manager-sat\income-expenses-manager-sat\bin\Debug\net8.0-windows\income-expenses-manager-sat.runtimeconfig.json
+C:\Users\ihsaa\Projects\income-expenses-manager-sat\income-expenses-manager-sat\income-expenses-manager-sat\bin\Debug\net8.0-windows\income-expenses-manager-sat.dll
+C:\Users\ihsaa\Projects\income-expenses-manager-sat\income-expenses-manager-sat\income-expenses-manager-sat\bin\Debug\net8.0-windows\income-expenses-manager-sat.pdb
+C:\Users\ihsaa\Projects\income-expenses-manager-sat\income-expenses-manager-sat\income-expenses-manager-sat\obj\Debug\net8.0-windows\income_expenses_manager_sat.Form1.resources
+C:\Users\ihsaa\Projects\income-expenses-manager-sat\income-expenses-manager-sat\income-expenses-manager-sat\obj\Debug\net8.0-windows\income-expenses-manager-sat.vbproj.GenerateResource.cache
+C:\Users\ihsaa\Projects\income-expenses-manager-sat\income-expenses-manager-sat\income-expenses-manager-sat\obj\Debug\net8.0-windows\income-expenses-manager-sat.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ihsaa\Projects\income-expenses-manager-sat\income-expenses-manager-sat\income-expenses-manager-sat\obj\Debug\net8.0-windows\income-expenses-manager-sat.AssemblyInfoInputs.cache
+C:\Users\ihsaa\Projects\income-expenses-manager-sat\income-expenses-manager-sat\income-expenses-manager-sat\obj\Debug\net8.0-windows\income-expenses-manager-sat.AssemblyInfo.vb
+C:\Users\ihsaa\Projects\income-expenses-manager-sat\income-expenses-manager-sat\income-expenses-manager-sat\obj\Debug\net8.0-windows\income-expenses-manager-sat.vbproj.CoreCompileInputs.cache
+C:\Users\ihsaa\Projects\income-expenses-manager-sat\income-expenses-manager-sat\income-expenses-manager-sat\obj\Debug\net8.0-windows\income-expenses-manager-sat.dll
+C:\Users\ihsaa\Projects\income-expenses-manager-sat\income-expenses-manager-sat\income-expenses-manager-sat\obj\Debug\net8.0-windows\refint\income-expenses-manager-sat.dll
+C:\Users\ihsaa\Projects\income-expenses-manager-sat\income-expenses-manager-sat\income-expenses-manager-sat\obj\Debug\net8.0-windows\income-expenses-manager-sat.pdb
+C:\Users\ihsaa\Projects\income-expenses-manager-sat\income-expenses-manager-sat\income-expenses-manager-sat\obj\Debug\net8.0-windows\income-expenses-manager-sat.genruntimeconfig.cache
+C:\Users\ihsaa\Projects\income-expenses-manager-sat\income-expenses-manager-sat\income-expenses-manager-sat\obj\Debug\net8.0-windows\ref\income-expenses-manager-sat.dll

@@ -1,0 +1,53 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\ihsaa\\Projects\\income-expenses-manager-sat\\income-expenses-manager-sat\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{3D23916D-F9E2-4468-A948-2E211093EF9E}|income-expenses-manager-sat\\income-expenses-manager-sat.vbproj|c:\\users\\ihsaa\\projects\\income-expenses-manager-sat\\income-expenses-manager-sat\\income-expenses-manager-sat\\form1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{3D23916D-F9E2-4468-A948-2E211093EF9E}|income-expenses-manager-sat\\income-expenses-manager-sat.vbproj|solutionrelative:income-expenses-manager-sat\\form1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3D23916D-F9E2-4468-A948-2E211093EF9E}|income-expenses-manager-sat\\income-expenses-manager-sat.vbproj|c:\\users\\ihsaa\\projects\\income-expenses-manager-sat\\income-expenses-manager-sat\\income-expenses-manager-sat\\form1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
+      "RelativeMoniker": "D:0:0:{3D23916D-F9E2-4468-A948-2E211093EF9E}|income-expenses-manager-sat\\income-expenses-manager-sat.vbproj|solutionrelative:income-expenses-manager-sat\\form1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Form1.vb",
+              "DocumentMoniker": "C:\\Users\\ihsaa\\Projects\\income-expenses-manager-sat\\income-expenses-manager-sat\\income-expenses-manager-sat\\Form1.vb",
+              "RelativeDocumentMoniker": "income-expenses-manager-sat\\Form1.vb",
+              "ToolTip": "C:\\Users\\ihsaa\\Projects\\income-expenses-manager-sat\\income-expenses-manager-sat\\income-expenses-manager-sat\\Form1.vb",
+              "RelativeToolTip": "income-expenses-manager-sat\\Form1.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAuwAIAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-06-17T03:10:25.378Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Form1.vb [Design]",
+              "DocumentMoniker": "C:\\Users\\ihsaa\\Projects\\income-expenses-manager-sat\\income-expenses-manager-sat\\income-expenses-manager-sat\\Form1.vb",
+              "RelativeDocumentMoniker": "income-expenses-manager-sat\\Form1.vb",
+              "ToolTip": "C:\\Users\\ihsaa\\Projects\\income-expenses-manager-sat\\income-expenses-manager-sat\\income-expenses-manager-sat\\Form1.vb [Design]",
+              "RelativeToolTip": "income-expenses-manager-sat\\Form1.vb [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-06-17T02:10:39.845Z",
+              "EditorCaption": " [Design]"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

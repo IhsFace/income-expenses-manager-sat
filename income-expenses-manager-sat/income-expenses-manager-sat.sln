@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.34916.146
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "income-expenses-manager-sat", "income-expenses-manager-sat\income-expenses-manager-sat.vbproj", "{3D23916D-F9E2-4468-A948-2E211093EF9E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3D23916D-F9E2-4468-A948-2E211093EF9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D23916D-F9E2-4468-A948-2E211093EF9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D23916D-F9E2-4468-A948-2E211093EF9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D23916D-F9E2-4468-A948-2E211093EF9E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C9FE3CDC-4F88-4E65-BBFA-CA5557EB6046}
+	EndGlobalSection
+EndGlobal
