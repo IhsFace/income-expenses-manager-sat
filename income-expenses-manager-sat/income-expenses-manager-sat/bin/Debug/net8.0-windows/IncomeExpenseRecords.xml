@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Records>
+  <Category>
+    <Record>
+      <Amount>100</Amount>
+      <Date>14/07/2024 22:42:58</Date>
+    </Record>
+    <Record>
+      <Amount>300</Amount>
+      <Date>14/07/2024 22:43:03</Date>
+    </Record>
+    <Record>
+      <Amount>-200</Amount>
+      <Date>14/07/2024 22:43:07</Date>
+    </Record>
+  </Category>
+</Records>

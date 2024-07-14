@@ -14,3 +14,4 @@ C:\Users\ihsaa\Projects\income-expenses-manager-sat\income-expenses-manager-sat\
 C:\Users\ihsaa\Projects\income-expenses-manager-sat\income-expenses-manager-sat\income-expenses-manager-sat\obj\Debug\net8.0-windows\income-expenses-manager-sat.pdb
 C:\Users\ihsaa\Projects\income-expenses-manager-sat\income-expenses-manager-sat\income-expenses-manager-sat\obj\Debug\net8.0-windows\income-expenses-manager-sat.genruntimeconfig.cache
 C:\Users\ihsaa\Projects\income-expenses-manager-sat\income-expenses-manager-sat\income-expenses-manager-sat\obj\Debug\net8.0-windows\ref\income-expenses-manager-sat.dll
+C:\Users\ihsaa\Projects\income-expenses-manager-sat\income-expenses-manager-sat\income-expenses-manager-sat\obj\Debug\net8.0-windows\income-expenses-manager-sat.sourcelink.json
