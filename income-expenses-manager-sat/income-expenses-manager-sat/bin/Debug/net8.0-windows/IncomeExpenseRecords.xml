@@ -2,16 +2,24 @@
 <Records>
   <Category>
     <Record>
+      <Id>0</Id>
       <Amount>100</Amount>
-      <Date>14/07/2024 22:42:58</Date>
+      <CreatedAt>15/07/2024 11:59:23</CreatedAt>
+      <UpdatedAt>15/07/2024 11:59:24</UpdatedAt>
     </Record>
     <Record>
+      <Id>2</Id>
       <Amount>300</Amount>
-      <Date>14/07/2024 22:43:03</Date>
-    </Record>
-    <Record>
-      <Amount>-200</Amount>
-      <Date>14/07/2024 22:43:07</Date>
+      <CreatedAt>15/07/2024 12:38:03</CreatedAt>
+      <UpdatedAt>15/07/2024 12:38:03</UpdatedAt>
     </Record>
   </Category>
+  <New>
+    <Record>
+      <Id>1</Id>
+      <Amount>200</Amount>
+      <CreatedAt>15/07/2024 12:00:10</CreatedAt>
+      <UpdatedAt>15/07/2024 12:00:10</UpdatedAt>
+    </Record>
+  </New>
 </Records>
