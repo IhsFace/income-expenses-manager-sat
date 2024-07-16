@@ -167,6 +167,69 @@ Public Class Form1
         MessageBox.Show("Income/Expense added successfully!", "Add Income/Expense")
     End Sub
 
+    Private Sub btnEditIncomeExpense_Click(sender As Object, e As EventArgs) Handles btnEditIncomeExpense.Click
+        If txtIncomeExpense.Text = "" Then
+            MessageBox.Show("Please enter an amount!", "Edit Income/Expense")
+            Return
+        End If
+        If txtSelectedRecord.Text = "" Then
+            MessageBox.Show("Please select a record!", "Edit Income/Expense")
+            Return
+        End If
+
+        Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//Record")
+
+        For Each recordNode As XmlNode In recordNodes
+            Dim idNode As XmlNode = recordNode.SelectSingleNode("Id")
+            Dim amountNode As XmlNode = recordNode.SelectSingleNode("Amount")
+            Dim updatedAtNode As XmlNode = recordNode.SelectSingleNode("UpdatedAt")
+
+            If idNode IsNot Nothing And idNode.InnerText = Val(txtSelectedRecord.Text) Then
+                If amountNode IsNot Nothing And updatedAtNode IsNot Nothing Then
+                    recordNode.RemoveChild(recordNode.SelectSingleNode("Amount"))
+                    Dim newAmountNode As XmlNode = xmlDoc.CreateElement("Amount")
+                    newAmountNode.InnerText = txtIncomeExpense.Text
+                    recordNode.AppendChild(newAmountNode)
+
+                    recordNode.RemoveChild(recordNode.SelectSingleNode("UpdatedAt"))
+                    Dim newUpdatedAtNode As XmlNode = xmlDoc.CreateElement("UpdatedAt")
+                    newUpdatedAtNode.InnerText = Date.Now()
+                    recordNode.AppendChild(newUpdatedAtNode)
+
+                    xmlDoc.Save(xmlFilePath)
+
+                    LoadRecords()
+
+                    MessageBox.Show("Income/Expense edited successfully!", "Edit Income/Expense")
+                End If
+            End If
+        Next
+    End Sub
+
+    Private Sub btnDeleteIncomeExpense_Click(sender As Object, e As EventArgs) Handles btnDeleteIncomeExpense.Click
+        If txtSelectedRecord.Text = "" Then
+            MessageBox.Show("Please select a record!", "Edit Income/Expense")
+            Return
+        End If
+
+        Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//Record")
+        Dim rootNode As XmlNode = xmlDoc.SelectSingleNode("Records")
+
+        For Each recordNode As XmlNode In recordNodes
+            Dim idNode As XmlNode = recordNode.SelectSingleNode("Id")
+
+            If idNode IsNot Nothing And idNode.InnerText = Val(txtSelectedRecord.Text) Then
+                rootNode.RemoveChild(recordNode)
+
+                xmlDoc.Save(xmlFilePath)
+
+                LoadRecords()
+
+                MessageBox.Show("Income/Expense deleted successfully!", "Delete Income/Expense")
+            End If
+        Next
+    End Sub
+
     Private Sub btnViewRecords_Click(sender As Object, e As EventArgs) Handles btnViewRecords.Click
         LoadRecords()
     End Sub
@@ -184,14 +247,13 @@ Public Class Form1
     End Sub
 
     Private Sub LoadRecords()
-        Dim strCategory As String = cbxCategory.SelectedItem
         Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//Record")
 
         lstDisplay.Items.Clear()
-        lstDisplay.Items.Add("Category: " & strCategory)
+        lstDisplay.Items.Add("Category: " & cbxCategory.SelectedItem)
 
         For Each recordNode As XmlNode In recordNodes
-            If strCategory = "All" Or recordNode.SelectSingleNode("Category").InnerText = strCategory Then
+            If cbxCategory.SelectedItem = "All" Or recordNode.SelectSingleNode("Category").InnerText = cbxCategory.SelectedItem Then
                 lstDisplay.Items.Add(recordNode.SelectSingleNode("Id").InnerText & ": $" & recordNode.SelectSingleNode("Amount").InnerText)
             End If
         Next
