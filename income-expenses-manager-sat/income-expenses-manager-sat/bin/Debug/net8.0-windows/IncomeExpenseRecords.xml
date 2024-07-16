@@ -1,25 +1,3 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Records>
-  <Category>
-    <Record>
-      <Id>0</Id>
-      <Amount>100</Amount>
-      <CreatedAt>15/07/2024 11:59:23</CreatedAt>
-      <UpdatedAt>15/07/2024 11:59:24</UpdatedAt>
-    </Record>
-    <Record>
-      <Id>2</Id>
-      <Amount>300</Amount>
-      <CreatedAt>15/07/2024 12:38:03</CreatedAt>
-      <UpdatedAt>15/07/2024 12:38:03</UpdatedAt>
-    </Record>
-  </Category>
-  <New>
-    <Record>
-      <Id>1</Id>
-      <Amount>200</Amount>
-      <CreatedAt>15/07/2024 12:00:10</CreatedAt>
-      <UpdatedAt>15/07/2024 12:00:10</UpdatedAt>
-    </Record>
-  </New>
 </Records>
