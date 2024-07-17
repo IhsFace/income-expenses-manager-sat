@@ -29,6 +29,11 @@ Public Class Form1
     Private Sub btnAddCategory_Click(sender As Object, e As EventArgs) Handles btnAddCategory.Click
         Dim strName As String = InputBox("Enter the name of the category:", "Add Category", "Category")
 
+        If String.IsNullOrWhiteSpace(strName) Then
+            MessageBox.Show("Operation cancelled.", "Add Category")
+            Return
+        End If
+
         Dim categoryNode As XmlNode = xmlDoc.CreateElement("Category")
 
         Dim nameNode As XmlNode = xmlDoc.CreateElement("Name")
@@ -53,6 +58,11 @@ Public Class Form1
         End If
 
         Dim strName As String = InputBox("Enter the name of the category:", "Edit Category", "Category")
+
+        If String.IsNullOrWhiteSpace(strName) Then
+            MessageBox.Show("Operation cancelled.", "Edit Category")
+            Return
+        End If
 
         Dim categoryNodes As XmlNodeList = xmlDoc.SelectNodes("Records/Category")
 
@@ -94,37 +104,50 @@ Public Class Form1
             Return
         End If
 
-        Dim categoryNodes As XmlNodeList = xmlDoc.SelectNodes("Records/Category")
-        Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//Record")
-        Dim rootNode As XmlNode = xmlDoc.SelectSingleNode("Records")
+        Dim strConfirm As String = LCase(InputBox("Are you sure you want to delete the category " & cbxCategory.SelectedItem & "? (Y or N):", "Delete Category", "N"))
 
-        For Each recordNode As XmlNode In recordNodes
-            Dim selectedCategoryNode As XmlNode = recordNode.SelectSingleNode("Category")
+        If strConfirm <> "y" Then
+            MessageBox.Show("Operation cancelled.", "Delete Category")
+            Return
+        ElseIf strConfirm = "y" Then
+            Dim categoryNodes As XmlNodeList = xmlDoc.SelectNodes("Records/Category")
+            Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//Record")
+            Dim rootNode As XmlNode = xmlDoc.SelectSingleNode("Records")
 
-            If selectedCategoryNode IsNot Nothing And selectedCategoryNode.InnerText = cbxCategory.SelectedItem Then
-                rootNode.RemoveChild(recordNode)
+            For Each recordNode As XmlNode In recordNodes
+                Dim selectedCategoryNode As XmlNode = recordNode.SelectSingleNode("Category")
 
-                For Each categoryNode As XmlNode In categoryNodes
-                    Dim nameNode As XmlNode = categoryNode.SelectSingleNode("Name")
+                If selectedCategoryNode IsNot Nothing And selectedCategoryNode.InnerText = cbxCategory.SelectedItem Then
+                    rootNode.RemoveChild(recordNode)
 
-                    If nameNode IsNot Nothing And nameNode.InnerText = cbxCategory.SelectedItem Then
-                        rootNode.RemoveChild(categoryNode)
-                    End If
-                Next
+                    For Each categoryNode As XmlNode In categoryNodes
+                        Dim nameNode As XmlNode = categoryNode.SelectSingleNode("Name")
 
-                xmlDoc.Save(xmlFilePath)
+                        If nameNode IsNot Nothing And nameNode.InnerText = cbxCategory.SelectedItem Then
+                            rootNode.RemoveChild(categoryNode)
+                        End If
+                    Next
 
-                PopulateComboBox()
-                LoadFinancialReport("all")
+                    xmlDoc.Save(xmlFilePath)
 
-                MessageBox.Show("Category deleted successfully!", "Delete Category")
-            End If
-        Next
+                    PopulateComboBox()
+                    LoadFinancialReport("all")
+
+                    MessageBox.Show("Category deleted successfully!", "Delete Category")
+                End If
+            Next
+        End If
     End Sub
 
     Private Sub btnAddIncomeExpense_Click(sender As Object, e As EventArgs) Handles btnAddIncomeExpense.Click
+        Dim strIncomeExpense As String = LCase(txtIncomeExpense.Text)
+
         If cbxCategory.SelectedIndex = -1 Or cbxCategory.SelectedIndex = 0 Then
             MessageBox.Show("Please select a category!", "Add Income/Expense")
+            Return
+        End If
+        If String.IsNullOrWhiteSpace(strIncomeExpense) Then
+            MessageBox.Show("Please enter an amount!", "Edit Income/Expense")
             Return
         End If
 
@@ -195,11 +218,11 @@ Public Class Form1
     Private Sub btnEditIncomeExpense_Click(sender As Object, e As EventArgs) Handles btnEditIncomeExpense.Click
         Dim strIncomeExpense As String = LCase(txtIncomeExpense.Text)
 
-        If strIncomeExpense = "" Then
+        If String.IsNullOrWhiteSpace(strIncomeExpense) Then
             MessageBox.Show("Please enter an amount!", "Edit Income/Expense")
             Return
         End If
-        If txtSelectedRecord.Text = "" Then
+        If String.IsNullOrWhiteSpace(txtSelectedRecord.Text) Then
             MessageBox.Show("Please select a record!", "Edit Income/Expense")
             Return
         End If
@@ -253,48 +276,60 @@ Public Class Form1
     Private Sub btnDeleteIncomeExpense_Click(sender As Object, e As EventArgs) Handles btnDeleteIncomeExpense.Click
         Dim strSelectedRecord As String = LCase(txtSelectedRecord.Text)
 
-        If strSelectedRecord = "" Then
+        If String.IsNullOrWhiteSpace(strSelectedRecord) Then
             MessageBox.Show("Please select a record!", "Edit Income/Expense")
             Return
         End If
 
-        Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//Record")
-        Dim budgetLimitNode As XmlNode = xmlDoc.SelectSingleNode("Records/BudgetLimit")
-        Dim rootNode As XmlNode = xmlDoc.SelectSingleNode("Records")
+        Dim strConfirm As String = LCase(InputBox("Are you sure you want to delete the record " & strSelectedRecord & "? (Y or N):", "Delete Income/Expense", "N"))
 
-        Dim intBudgetLimit As Integer = budgetLimitNode.SelectSingleNode("Limit").InnerText
-        Dim blnExceededLimit As Boolean = False
-        Dim intNetIncome As Integer
+        If strConfirm <> "y" Then
+            MessageBox.Show("Operation cancelled.", "Delete Income/Expense")
+            Return
+        ElseIf strConfirm = "y" Then
+            Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//Record")
+            Dim budgetLimitNode As XmlNode = xmlDoc.SelectSingleNode("Records/BudgetLimit")
+            Dim rootNode As XmlNode = xmlDoc.SelectSingleNode("Records")
 
-        intNetIncome = LoadFinancialReport("all")
+            Dim intBudgetLimit As Integer = budgetLimitNode.SelectSingleNode("Limit").InnerText
+            Dim blnExceededLimit As Boolean = False
+            Dim intNetIncome As Integer
 
-        If intNetIncome > intBudgetLimit And intBudgetLimit <> 0 Then
-            blnExceededLimit = True
-        End If
+            intNetIncome = LoadFinancialReport("all")
 
-        For Each recordNode As XmlNode In recordNodes
-            Dim idNode As XmlNode = recordNode.SelectSingleNode("Id")
-
-            If idNode IsNot Nothing And idNode.InnerText = Val(strSelectedRecord) Then
-                rootNode.RemoveChild(recordNode)
-
-                xmlDoc.Save(xmlFilePath)
-
-                intNetIncome = LoadFinancialReport("all")
-
-                If Not blnExceededLimit And intNetIncome > intBudgetLimit And intBudgetLimit <> 0 Then
-                    MessageBox.Show("Budget limit exceeded!", "Delete Income/Expense")
-                ElseIf blnExceededLimit And intNetIncome <= intBudgetLimit And intBudgetLimit <> 0 Then
-                    MessageBox.Show("Budget limit no longer exceeded!", "Delete Income/Expense")
-                End If
-
-                MessageBox.Show("Income/Expense deleted successfully!", "Delete Income/Expense")
+            If intNetIncome > intBudgetLimit And intBudgetLimit <> 0 Then
+                blnExceededLimit = True
             End If
-        Next
+
+            For Each recordNode As XmlNode In recordNodes
+                Dim idNode As XmlNode = recordNode.SelectSingleNode("Id")
+
+                If idNode IsNot Nothing And idNode.InnerText = Val(strSelectedRecord) Then
+                    rootNode.RemoveChild(recordNode)
+
+                    xmlDoc.Save(xmlFilePath)
+
+                    intNetIncome = LoadFinancialReport("all")
+
+                    If Not blnExceededLimit And intNetIncome > intBudgetLimit And intBudgetLimit <> 0 Then
+                        MessageBox.Show("Budget limit exceeded!", "Delete Income/Expense")
+                    ElseIf blnExceededLimit And intNetIncome <= intBudgetLimit And intBudgetLimit <> 0 Then
+                        MessageBox.Show("Budget limit no longer exceeded!", "Delete Income/Expense")
+                    End If
+
+                    MessageBox.Show("Income/Expense deleted successfully!", "Delete Income/Expense")
+                End If
+            Next
+        End If
     End Sub
 
     Private Sub btnSetBudgetLimit_Click(sender As Object, e As EventArgs) Handles btnSetBudgetLimit.Click
         Dim strBudgetLimit As String = LCase(InputBox("Enter the budget limit (or type None to remove):", "Set Budget Limit", "1000"))
+
+        If String.IsNullOrWhiteSpace(strBudgetLimit) Then
+            MessageBox.Show("Operation cancelled.", "Set Budget Limit")
+            Return
+        End If
 
         If strBudgetLimit = "none" Then
             Dim rootNode As XmlNode = xmlDoc.SelectSingleNode("Records")
@@ -338,6 +373,11 @@ Public Class Form1
     Private Sub btnViewReport_Click(sender As Object, e As EventArgs) Handles btnViewReport.Click
         Dim strTimePeriod As String = LCase(InputBox("Enter the year for the financial report (e.g. All, 2024):", "Financial Report", "2024"))
 
+        If String.IsNullOrWhiteSpace(strTimePeriod) Then
+            MessageBox.Show("Operation cancelled.", "View Report")
+            Return
+        End If
+
         LoadFinancialReport(strTimePeriod)
     End Sub
 
@@ -348,7 +388,18 @@ Public Class Form1
         Dim intCurrentIndex As Integer = 0
 
         Dim strSortOption As String = LCase(InputBox("Enter the sort option for the records (Id or Amount):", "Sort Records", "Amount"))
+
+        If String.IsNullOrWhiteSpace(strSortOption) Then
+            MessageBox.Show("Operation cancelled.", "Sort Records")
+            Return
+        End If
+
         Dim strSortOrder As String = LCase(InputBox("Sort the records in descending order (Y or N):", "Sort Records", "N"))
+
+        If String.IsNullOrWhiteSpace(strSortOrder) Then
+            MessageBox.Show("Operation cancelled.", "Sort Records")
+            Return
+        End If
 
         Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//Record")
 
@@ -415,7 +466,18 @@ Public Class Form1
         Dim intCurrentIndex As Integer = 0
 
         Dim strSearchRequestType As String = LCase(InputBox("Enter the search request type (Id or Amount):", "Search Records", "Amount"))
+
+        If String.IsNullOrWhiteSpace(strSearchRequestType) Then
+            MessageBox.Show("Operation cancelled.", "Search Records")
+            Return
+        End If
+
         Dim strSearchRequestItem As String = LCase(InputBox("Enter the search request item:", "Search Records", "100"))
+
+        If String.IsNullOrWhiteSpace(strSearchRequestItem) Then
+            MessageBox.Show("Operation cancelled.", "Search Records")
+            Return
+        End If
 
         Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//Record")
 
