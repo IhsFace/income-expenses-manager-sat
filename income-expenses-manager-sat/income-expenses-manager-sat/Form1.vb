@@ -3,6 +3,7 @@
 Public Class Form1
     Dim xmlDoc As New XmlDocument()
     Dim xmlFilePath As String = "IncomeExpenseRecords.xml"
+    Dim intDisplayedRecords As Integer = 0
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         If System.IO.File.Exists(xmlFilePath) Then
@@ -238,6 +239,73 @@ Public Class Form1
         LoadFinancialReport()
     End Sub
 
+    Private Sub btnSortRecords_Click(sender As Object, e As EventArgs) Handles btnSortRecords.Click
+        LoadRecords()
+
+        Dim intNbrsArray(intDisplayedRecords - 1) As Integer
+        Dim intCurrentIndex As Integer = 0
+
+        Dim strSortOption As String = InputBox("Enter the sort option for the records (Id or Amount):", "Sort Records", "Amount")
+        Dim strSortOrder As String = InputBox("Sort the records in descending order (Y or N):", "Sort Records", "N")
+
+        Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//Record")
+
+        For Each recordNode As XmlNode In recordNodes
+            Dim selectedNode As XmlNode = recordNode.SelectSingleNode(strSortOption)
+            intNbrsArray(intCurrentIndex) = (Val(selectedNode.InnerText))
+            intCurrentIndex = intCurrentIndex + 1
+        Next
+
+        Dim intLowerBound As Integer = LBound(intNbrsArray)
+        Dim intUpperBound As Integer = UBound(intNbrsArray)
+
+        Dim i As Integer = 0
+        Dim j As Integer = 0
+
+        Dim intMinValueIndex As Integer
+        Dim intSwapValueIndex As Integer
+        Dim intSwapValue As Integer
+
+        For i = intLowerBound To intUpperBound
+            intMinValueIndex = i
+            intSwapValue = 0
+            intSwapValueIndex = 0
+
+            For j = i + 1 To intUpperBound
+                If intNbrsArray(j) < intNbrsArray(intMinValueIndex) Then
+                    If intSwapValue = 0 Then
+                        intSwapValue = intNbrsArray(j)
+                        intSwapValueIndex = j
+                    Else
+                        If intNbrsArray(j) < intSwapValue Then
+                            intSwapValue = intNbrsArray(j)
+                            intSwapValueIndex = j
+                        End If
+                    End If
+                End If
+            Next
+
+            If intSwapValue <> 0 Then
+                intNbrsArray(intSwapValueIndex) = intNbrsArray(intMinValueIndex)
+                intNbrsArray(intMinValueIndex) = intSwapValue
+            End If
+        Next
+
+        If strSortOrder = "Y" Then
+            Array.Reverse(intNbrsArray)
+        End If
+
+        lstDisplay.Items.Clear()
+
+        For c = 0 To intNbrsArray.Length - 1
+            For Each recordNode As XmlNode In recordNodes
+                If recordNode.SelectSingleNode(strSortOption).InnerText = intNbrsArray(c) Then
+                    lstDisplay.Items.Add(recordNode.SelectSingleNode("Id").InnerText & ": $" & recordNode.SelectSingleNode("Amount").InnerText)
+                End If
+            Next
+        Next
+    End Sub
+
     Private Sub btnClear_Click(sender As Object, e As EventArgs) Handles btnClear.Click
         cbxCategory.SelectedIndex = 0
         txtIncomeExpense.Clear()
@@ -249,12 +317,15 @@ Public Class Form1
     Private Sub LoadRecords()
         Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//Record")
 
+        intDisplayedRecords = 0
+
         lstDisplay.Items.Clear()
         lstDisplay.Items.Add("Category: " & cbxCategory.SelectedItem)
 
         For Each recordNode As XmlNode In recordNodes
             If cbxCategory.SelectedItem = "All" Or recordNode.SelectSingleNode("Category").InnerText = cbxCategory.SelectedItem Then
                 lstDisplay.Items.Add(recordNode.SelectSingleNode("Id").InnerText & ": $" & recordNode.SelectSingleNode("Amount").InnerText)
+                intDisplayedRecords = intDisplayedRecords + 1
             End If
         Next
     End Sub

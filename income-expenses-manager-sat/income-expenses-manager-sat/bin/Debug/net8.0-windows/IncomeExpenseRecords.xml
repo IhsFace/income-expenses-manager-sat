@@ -3,4 +3,32 @@
   <Category>
     <Name>Category</Name>
   </Category>
+  <Record>
+    <Id>0</Id>
+    <Category>Category</Category>
+    <Amount>100</Amount>
+    <CreatedAt>17/07/2024 11:43:23</CreatedAt>
+    <UpdatedAt>17/07/2024 11:43:23</UpdatedAt>
+  </Record>
+  <Record>
+    <Id>1</Id>
+    <Category>Category</Category>
+    <Amount>400</Amount>
+    <CreatedAt>17/07/2024 11:53:23</CreatedAt>
+    <UpdatedAt>17/07/2024 11:53:23</UpdatedAt>
+  </Record>
+  <Record>
+    <Id>2</Id>
+    <Category>Category</Category>
+    <Amount>300</Amount>
+    <CreatedAt>17/07/2024 11:53:29</CreatedAt>
+    <UpdatedAt>17/07/2024 11:53:29</UpdatedAt>
+  </Record>
+  <Record>
+    <Id>3</Id>
+    <Category>Category</Category>
+    <Amount>200</Amount>
+    <CreatedAt>17/07/2024 11:53:32</CreatedAt>
+    <UpdatedAt>17/07/2024 11:53:32</UpdatedAt>
+  </Record>
 </Records>
