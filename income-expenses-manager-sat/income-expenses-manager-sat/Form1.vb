@@ -306,6 +306,53 @@ Public Class Form1
         Next
     End Sub
 
+    Private Sub btnSearchRecords_Click(sender As Object, e As EventArgs) Handles btnSearchRecords.Click
+        LoadRecords()
+
+        Dim intNbrsArray(intDisplayedRecords - 1) As Integer
+        Dim intCurrentIndex As Integer = 0
+
+        Dim strSearchRequestType As String = InputBox("Enter the search request type (Id or Amount):", "Search Records", "Amount")
+        Dim strSearchRequestItem As String = InputBox("Enter the search request item:", "Search Records", "100")
+
+        Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//Record")
+
+        For Each recordNode As XmlNode In recordNodes
+            Dim selectedNode As XmlNode = recordNode.SelectSingleNode(strSearchRequestType)
+            intNbrsArray(intCurrentIndex) = (Val(selectedNode.InnerText))
+            intCurrentIndex = intCurrentIndex + 1
+        Next
+
+        Dim blnItemFound As Boolean = False
+        Dim blnEndOfArray As Boolean = False
+        Dim intSubscript As Integer = 0
+        Dim intMaxSubscript As Integer = 0
+
+        intMaxSubscript = intNbrsArray.Length - 1
+
+        While blnItemFound = False And blnEndOfArray = False
+            If strSearchRequestItem = intNbrsArray(intSubscript) Then
+                blnItemFound = True
+            ElseIf intSubscript = intMaxSubscript Then
+                blnEndOfArray = True
+            Else
+                intSubscript = intSubscript + 1
+            End If
+        End While
+
+        If blnItemFound = True Then
+            lstDisplay.Items.Clear()
+
+            For Each recordNode As XmlNode In recordNodes
+                If recordNode.SelectSingleNode(strSearchRequestType).InnerText = strSearchRequestItem Then
+                    lstDisplay.Items.Add(recordNode.SelectSingleNode("Id").InnerText & ": $" & recordNode.SelectSingleNode("Amount").InnerText)
+                End If
+            Next
+        Else
+            MessageBox.Show("Item not found!", "Search Records")
+        End If
+    End Sub
+
     Private Sub btnClear_Click(sender As Object, e As EventArgs) Handles btnClear.Click
         cbxCategory.SelectedIndex = 0
         txtIncomeExpense.Clear()
