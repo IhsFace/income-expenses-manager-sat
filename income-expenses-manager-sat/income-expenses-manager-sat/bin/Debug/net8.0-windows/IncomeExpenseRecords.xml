@@ -1,15 +1,11 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Records>
+  <BudgetLimit>
+    <Limit>0</Limit>
+  </BudgetLimit>
   <Category>
     <Name>Category</Name>
   </Category>
-  <Record>
-    <Id>0</Id>
-    <Category>Category</Category>
-    <Amount>100</Amount>
-    <CreatedAt>17/07/2024 11:43:23</CreatedAt>
-    <UpdatedAt>17/07/2024 11:43:23</UpdatedAt>
-  </Record>
   <Record>
     <Id>1</Id>
     <Category>Category</Category>

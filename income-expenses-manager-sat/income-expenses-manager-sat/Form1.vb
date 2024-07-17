@@ -9,12 +9,19 @@ Public Class Form1
         If System.IO.File.Exists(xmlFilePath) Then
             xmlDoc.Load(xmlFilePath)
             PopulateComboBox()
-            LoadRecords()
+            LoadFinancialReport("all")
         Else
             Dim xmlDeclaration As XmlDeclaration = xmlDoc.CreateXmlDeclaration("1.0", "UTF-8", Nothing)
             xmlDoc.AppendChild(xmlDeclaration)
             Dim rootNode As XmlNode = xmlDoc.CreateElement("Records")
             xmlDoc.AppendChild(rootNode)
+
+            Dim budgetLimitNode As XmlNode = xmlDoc.CreateElement("BudgetLimit")
+            Dim limitNode As XmlNode = xmlDoc.CreateElement("Limit")
+            limitNode.InnerText = "0"
+            budgetLimitNode.AppendChild(limitNode)
+            rootNode.AppendChild(budgetLimitNode)
+
             xmlDoc.Save(xmlFilePath)
         End If
     End Sub
@@ -34,7 +41,7 @@ Public Class Form1
         xmlDoc.Save(xmlFilePath)
 
         PopulateComboBox()
-        LoadRecords()
+        LoadFinancialReport("all")
 
         MessageBox.Show("Category added successfully!", "Add Category")
     End Sub
@@ -74,7 +81,7 @@ Public Class Form1
                 xmlDoc.Save(xmlFilePath)
 
                 PopulateComboBox()
-                LoadRecords()
+                LoadFinancialReport("all")
 
                 MessageBox.Show("Category edited successfully!", "Edit Category")
             End If
@@ -108,7 +115,7 @@ Public Class Form1
                 xmlDoc.Save(xmlFilePath)
 
                 PopulateComboBox()
-                LoadRecords()
+                LoadFinancialReport("all")
 
                 MessageBox.Show("Category deleted successfully!", "Delete Category")
             End If
@@ -125,6 +132,17 @@ Public Class Form1
         Dim intNewId As Integer
 
         Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//Record")
+        Dim budgetLimitNode As XmlNode = xmlDoc.SelectSingleNode("Records/BudgetLimit")
+
+        Dim intBudgetLimit As Integer = budgetLimitNode.SelectSingleNode("Limit").InnerText
+        Dim blnExceededLimit As Boolean = False
+        Dim intNetIncome As Integer
+
+        intNetIncome = LoadFinancialReport("all")
+
+        If intNetIncome > intBudgetLimit And intBudgetLimit <> 0 Then
+            blnExceededLimit = True
+        End If
 
         For Each selectedNode As XmlNode In recordNodes
             Dim selectedIdNode As XmlNode = selectedNode.SelectSingleNode("Id")
@@ -163,13 +181,21 @@ Public Class Form1
 
         xmlDoc.Save(xmlFilePath)
 
-        LoadRecords()
+        intNetIncome = LoadFinancialReport("all")
+
+        If Not blnExceededLimit And intNetIncome > intBudgetLimit And intBudgetLimit <> 0 Then
+            MessageBox.Show("Budget limit exceeded!", "Add Income/Expense")
+        ElseIf blnExceededLimit And intNetIncome <= intBudgetLimit And intBudgetLimit <> 0 Then
+            MessageBox.Show("Budget limit no longer exceeded!", "Add Income/Expense")
+        End If
 
         MessageBox.Show("Income/Expense added successfully!", "Add Income/Expense")
     End Sub
 
     Private Sub btnEditIncomeExpense_Click(sender As Object, e As EventArgs) Handles btnEditIncomeExpense.Click
-        If txtIncomeExpense.Text = "" Then
+        Dim strIncomeExpense As String = LCase(txtIncomeExpense.Text)
+
+        If strIncomeExpense = "" Then
             MessageBox.Show("Please enter an amount!", "Edit Income/Expense")
             Return
         End If
@@ -179,6 +205,17 @@ Public Class Form1
         End If
 
         Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//Record")
+        Dim budgetLimitNode As XmlNode = xmlDoc.SelectSingleNode("Records/BudgetLimit")
+
+        Dim intBudgetLimit As Integer = budgetLimitNode.SelectSingleNode("Limit").InnerText
+        Dim blnExceededLimit As Boolean = False
+        Dim intNetIncome As Integer
+
+        intNetIncome = LoadFinancialReport("all")
+
+        If intNetIncome > intBudgetLimit And intBudgetLimit <> 0 Then
+            blnExceededLimit = True
+        End If
 
         For Each recordNode As XmlNode In recordNodes
             Dim idNode As XmlNode = recordNode.SelectSingleNode("Id")
@@ -189,7 +226,7 @@ Public Class Form1
                 If amountNode IsNot Nothing And updatedAtNode IsNot Nothing Then
                     recordNode.RemoveChild(recordNode.SelectSingleNode("Amount"))
                     Dim newAmountNode As XmlNode = xmlDoc.CreateElement("Amount")
-                    newAmountNode.InnerText = txtIncomeExpense.Text
+                    newAmountNode.InnerText = strIncomeExpense
                     recordNode.AppendChild(newAmountNode)
 
                     recordNode.RemoveChild(recordNode.SelectSingleNode("UpdatedAt"))
@@ -199,7 +236,13 @@ Public Class Form1
 
                     xmlDoc.Save(xmlFilePath)
 
-                    LoadRecords()
+                    intNetIncome = LoadFinancialReport("all")
+
+                    If Not blnExceededLimit And intNetIncome > intBudgetLimit And intBudgetLimit <> 0 Then
+                        MessageBox.Show("Budget limit exceeded!", "Edit Income/Expense")
+                    ElseIf blnExceededLimit And intNetIncome <= intBudgetLimit And intBudgetLimit <> 0 Then
+                        MessageBox.Show("Budget limit no longer exceeded!", "Edit Income/Expense")
+                    End If
 
                     MessageBox.Show("Income/Expense edited successfully!", "Edit Income/Expense")
                 End If
@@ -208,27 +251,84 @@ Public Class Form1
     End Sub
 
     Private Sub btnDeleteIncomeExpense_Click(sender As Object, e As EventArgs) Handles btnDeleteIncomeExpense.Click
-        If txtSelectedRecord.Text = "" Then
+        Dim strSelectedRecord As String = LCase(txtSelectedRecord.Text)
+
+        If strSelectedRecord = "" Then
             MessageBox.Show("Please select a record!", "Edit Income/Expense")
             Return
         End If
 
         Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//Record")
+        Dim budgetLimitNode As XmlNode = xmlDoc.SelectSingleNode("Records/BudgetLimit")
         Dim rootNode As XmlNode = xmlDoc.SelectSingleNode("Records")
+
+        Dim intBudgetLimit As Integer = budgetLimitNode.SelectSingleNode("Limit").InnerText
+        Dim blnExceededLimit As Boolean = False
+        Dim intNetIncome As Integer
+
+        intNetIncome = LoadFinancialReport("all")
+
+        If intNetIncome > intBudgetLimit And intBudgetLimit <> 0 Then
+            blnExceededLimit = True
+        End If
 
         For Each recordNode As XmlNode In recordNodes
             Dim idNode As XmlNode = recordNode.SelectSingleNode("Id")
 
-            If idNode IsNot Nothing And idNode.InnerText = Val(txtSelectedRecord.Text) Then
+            If idNode IsNot Nothing And idNode.InnerText = Val(strSelectedRecord) Then
                 rootNode.RemoveChild(recordNode)
 
                 xmlDoc.Save(xmlFilePath)
 
-                LoadRecords()
+                intNetIncome = LoadFinancialReport("all")
+
+                If Not blnExceededLimit And intNetIncome > intBudgetLimit And intBudgetLimit <> 0 Then
+                    MessageBox.Show("Budget limit exceeded!", "Delete Income/Expense")
+                ElseIf blnExceededLimit And intNetIncome <= intBudgetLimit And intBudgetLimit <> 0 Then
+                    MessageBox.Show("Budget limit no longer exceeded!", "Delete Income/Expense")
+                End If
 
                 MessageBox.Show("Income/Expense deleted successfully!", "Delete Income/Expense")
             End If
         Next
+    End Sub
+
+    Private Sub btnSetBudgetLimit_Click(sender As Object, e As EventArgs) Handles btnSetBudgetLimit.Click
+        Dim strBudgetLimit As String = LCase(InputBox("Enter the budget limit (or type None to remove):", "Set Budget Limit", "1000"))
+
+        If strBudgetLimit = "none" Then
+            Dim rootNode As XmlNode = xmlDoc.SelectSingleNode("Records")
+            Dim budgetLimitNode As XmlNode = xmlDoc.SelectSingleNode("//BudgetLimit")
+
+            If budgetLimitNode IsNot Nothing Then
+                budgetLimitNode.RemoveChild(budgetLimitNode.SelectSingleNode("Limit"))
+
+                Dim limitNode As XmlNode = xmlDoc.CreateElement("Limit")
+                limitNode.InnerText = "0"
+                budgetLimitNode.AppendChild(limitNode)
+
+                xmlDoc.Save(xmlFilePath)
+
+                MessageBox.Show("Budget limit set successfully!", "Set Budget Limit")
+            End If
+        ElseIf strBudgetLimit <> "none" Then
+            Dim rootNode As XmlNode = xmlDoc.SelectSingleNode("Records")
+            Dim budgetLimitNode As XmlNode = xmlDoc.SelectSingleNode("//BudgetLimit")
+
+            If budgetLimitNode IsNot Nothing Then
+                budgetLimitNode.RemoveChild(budgetLimitNode.SelectSingleNode("Limit"))
+
+                Dim limitNode As XmlNode = xmlDoc.CreateElement("Limit")
+                limitNode.InnerText = strBudgetLimit
+                budgetLimitNode.AppendChild(limitNode)
+
+                xmlDoc.Save(xmlFilePath)
+
+                MessageBox.Show("Budget limit set successfully!", "Set Budget Limit")
+            End If
+        End If
+
+        LoadFinancialReport("all")
     End Sub
 
     Private Sub btnViewRecords_Click(sender As Object, e As EventArgs) Handles btnViewRecords.Click
@@ -236,7 +336,9 @@ Public Class Form1
     End Sub
 
     Private Sub btnViewReport_Click(sender As Object, e As EventArgs) Handles btnViewReport.Click
-        LoadFinancialReport()
+        Dim strTimePeriod As String = LCase(InputBox("Enter the year for the financial report (e.g. All, 2024):", "Financial Report", "2024"))
+
+        LoadFinancialReport(strTimePeriod)
     End Sub
 
     Private Sub btnSortRecords_Click(sender As Object, e As EventArgs) Handles btnSortRecords.Click
@@ -245,8 +347,8 @@ Public Class Form1
         Dim intNbrsArray(intDisplayedRecords - 1) As Integer
         Dim intCurrentIndex As Integer = 0
 
-        Dim strSortOption As String = InputBox("Enter the sort option for the records (Id or Amount):", "Sort Records", "Amount")
-        Dim strSortOrder As String = InputBox("Sort the records in descending order (Y or N):", "Sort Records", "N")
+        Dim strSortOption As String = LCase(InputBox("Enter the sort option for the records (Id or Amount):", "Sort Records", "Amount"))
+        Dim strSortOrder As String = LCase(InputBox("Sort the records in descending order (Y or N):", "Sort Records", "N"))
 
         Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//Record")
 
@@ -291,7 +393,7 @@ Public Class Form1
             End If
         Next
 
-        If strSortOrder = "Y" Then
+        If strSortOrder = "y" Then
             Array.Reverse(intNbrsArray)
         End If
 
@@ -312,8 +414,8 @@ Public Class Form1
         Dim intNbrsArray(intDisplayedRecords - 1) As Integer
         Dim intCurrentIndex As Integer = 0
 
-        Dim strSearchRequestType As String = InputBox("Enter the search request type (Id or Amount):", "Search Records", "Amount")
-        Dim strSearchRequestItem As String = InputBox("Enter the search request item:", "Search Records", "100")
+        Dim strSearchRequestType As String = LCase(InputBox("Enter the search request type (Id or Amount):", "Search Records", "Amount"))
+        Dim strSearchRequestItem As String = LCase(InputBox("Enter the search request item:", "Search Records", "100"))
 
         Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//Record")
 
@@ -361,6 +463,19 @@ Public Class Form1
         cbxCategory.Focus()
     End Sub
 
+    Private Sub PopulateComboBox()
+        Dim categoryNodes As XmlNodeList = xmlDoc.SelectNodes("Records/Category")
+
+        cbxCategory.Items.Clear()
+        cbxCategory.Items.Add("All")
+
+        For Each categoryNode As XmlNode In categoryNodes
+            cbxCategory.Items.Add(categoryNode.SelectSingleNode("Name").InnerText)
+        Next
+
+        cbxCategory.SelectedIndex = 0
+    End Sub
+
     Private Sub LoadRecords()
         Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//Record")
 
@@ -377,19 +492,22 @@ Public Class Form1
         Next
     End Sub
 
-    Private Sub LoadFinancialReport()
+    Public Function LoadFinancialReport(ByVal strTimePeriod As String) As Integer
         Dim intTotalIncome As Integer
         Dim intTotalExpenses As Integer
-        Dim strTimePeriod As String = InputBox("Enter the time period for the financial report (e.g. 2024):", "Financial Report", "2024")
-
+        Dim intNetIncome As Integer
         Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//Record")
+
+        Dim budgetLimitNode As XmlNode = xmlDoc.SelectSingleNode("Records/BudgetLimit")
+
+        Dim intBudgetLimit As Integer = budgetLimitNode.SelectSingleNode("Limit").InnerText
 
         lstDisplay.Items.Clear()
 
         For Each recordNode As XmlNode In recordNodes
             Dim updatedAtNode As XmlNode = recordNode.SelectSingleNode("UpdatedAt")
 
-            If updatedAtNode IsNot Nothing And updatedAtNode.InnerText.Contains(strTimePeriod) Then
+            If updatedAtNode IsNot Nothing And (updatedAtNode.InnerText.Contains(strTimePeriod) OrElse strTimePeriod = "all") Then
                 If recordNode.SelectSingleNode("Amount").InnerText.StartsWith("-") Then
                     intTotalExpenses = intTotalExpenses + Val(recordNode.SelectSingleNode("Amount").InnerText)
                 Else
@@ -398,22 +516,22 @@ Public Class Form1
             End If
         Next
 
-        lstDisplay.Items.Add("Total Income: " & intTotalIncome)
-        lstDisplay.Items.Add("Total Expenses: " & intTotalExpenses)
-        lstDisplay.Items.Add("Net Income: " & (intTotalIncome + intTotalExpenses))
+        intNetIncome = intTotalIncome + intTotalExpenses
+
+        lstDisplay.Items.Add("Total Income: $" & intTotalIncome)
+        lstDisplay.Items.Add("Total Expenses: $" & intTotalExpenses)
+        lstDisplay.Items.Add("Net Income: $" & intNetIncome)
+
+        If intBudgetLimit = 0 Then
+            lstDisplay.Items.Add("Budget Limit: None")
+            lstDisplay.Items.Add("Remaining Budget: No Budget")
+        ElseIf intBudgetLimit <> 0 Then
+            lstDisplay.Items.Add("Budget Limit: $" & intBudgetLimit)
+            lstDisplay.Items.Add("Remaining Budget: $" & (intBudgetLimit - intNetIncome))
+        End If
+
         lstDisplay.Items.Add("Time Period: " & strTimePeriod)
-    End Sub
 
-    Private Sub PopulateComboBox()
-        Dim categoryNodes As XmlNodeList = xmlDoc.SelectNodes("Records/Category")
-
-        cbxCategory.Items.Clear()
-        cbxCategory.Items.Add("All")
-
-        For Each categoryNode As XmlNode In categoryNodes
-            cbxCategory.Items.Add(categoryNode.SelectSingleNode("Name").InnerText)
-        Next
-
-        cbxCategory.SelectedIndex = 0
-    End Sub
+        Return intNetIncome
+    End Function
 End Class
