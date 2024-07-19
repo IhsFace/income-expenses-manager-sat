@@ -387,7 +387,7 @@ Public Class Form1
         Dim intNbrsArray(intDisplayedRecords - 1) As Integer
         Dim intCurrentIndex As Integer = 0
 
-        Dim strSortOption As String = LCase(InputBox("Enter the sort option for the records (Id or Amount):", "Sort Records", "Amount"))
+        Dim strSortOption As String = InputBox("Enter the sort option for the records (Id or Amount):", "Sort Records", "Amount")
 
         If String.IsNullOrWhiteSpace(strSortOption) Then
             MessageBox.Show("Operation cancelled.", "Sort Records")
@@ -465,7 +465,7 @@ Public Class Form1
         Dim intNbrsArray(intDisplayedRecords - 1) As Integer
         Dim intCurrentIndex As Integer = 0
 
-        Dim strSearchRequestType As String = LCase(InputBox("Enter the search request type (Id or Amount):", "Search Records", "Amount"))
+        Dim strSearchRequestType As String = InputBox("Enter the search request type (Id or Amount):", "Search Records", "Amount")
 
         If String.IsNullOrWhiteSpace(strSearchRequestType) Then
             MessageBox.Show("Operation cancelled.", "Search Records")
