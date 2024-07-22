@@ -807,7 +807,7 @@ Public Class Form1
     ' The function LoadFinancialReport is used to load the financial report from the XML file based on the selected time period
     ' strTimePeriod Parameter: The time period for the financial report
     ' Returns the net income for the selected time period
-    Public Function LoadFinancialReport(ByVal strTimePeriod As String) As Integer
+    Private Function LoadFinancialReport(ByVal strTimePeriod As String) As Integer
         ' Declare the integer variables to store the total income, total expenses, net income and budget limit
         Dim intTotalIncome As Integer
         Dim intTotalExpenses As Integer
