@@ -10,21 +10,21 @@
     <id>0</id>
     <category>Category</category>
     <amount>100</amount>
-    <createdAt>24/07/2024 18:11:37</createdAt>
-    <updatedAt>24/07/2024 18:11:37</updatedAt>
+    <createdAt>24/07/2024 20:54:14</createdAt>
+    <updatedAt>24/07/2024 20:54:14</updatedAt>
   </record>
   <record>
     <id>1</id>
     <category>Category</category>
     <amount>200</amount>
-    <createdAt>24/07/2024 18:11:43</createdAt>
-    <updatedAt>24/07/2024 18:11:43</updatedAt>
+    <createdAt>24/07/2024 20:54:21</createdAt>
+    <updatedAt>24/07/2024 20:54:21</updatedAt>
   </record>
   <record>
     <id>2</id>
     <category>Category</category>
     <amount>300</amount>
-    <createdAt>24/07/2024 18:11:49</createdAt>
-    <updatedAt>24/07/2024 18:11:49</updatedAt>
+    <createdAt>24/07/2024 20:54:25</createdAt>
+    <updatedAt>24/07/2024 20:54:25</updatedAt>
   </record>
 </records>
