@@ -483,49 +483,28 @@ Public Class Form1
             Return
         End If
 
-        ' Check if the budget limit is not none
-        If strBudgetLimit = "none" Then
-            ' Get the root node and the BudgetLimit node
-            Dim rootNode As XmlNode = xmlDoc.SelectSingleNode("Records")
-            Dim budgetLimitNode As XmlNode = xmlDoc.SelectSingleNode("//BudgetLimit")
+        ' Check if the budget limit is none
+        If strBudgetLimit = "none" Then strBudgetLimit = "0"
 
-            ' Check if the BudgetLimit node exists
-            If budgetLimitNode IsNot Nothing Then
-                ' Remove the Limit node
-                budgetLimitNode.RemoveChild(budgetLimitNode.SelectSingleNode("Limit"))
+        ' Get the root node and the BudgetLimit node
+        Dim rootNode As XmlNode = xmlDoc.SelectSingleNode("Records")
+        Dim budgetLimitNode As XmlNode = xmlDoc.SelectSingleNode("//BudgetLimit")
 
-                ' Create a new Limit node and set the inner text of the Limit node to 0 and append it to the BudgetLimit node
-                Dim limitNode As XmlNode = xmlDoc.CreateElement("Limit")
-                limitNode.InnerText = "0"
-                budgetLimitNode.AppendChild(limitNode)
+        ' Check if the BudgetLimit node exists
+        If budgetLimitNode IsNot Nothing Then
+            ' Remove the Limit node
+            budgetLimitNode.RemoveChild(budgetLimitNode.SelectSingleNode("Limit"))
 
-                ' Save the XML file
-                xmlDoc.Save(xmlFilePath)
+            ' Create a new Limit node and set the inner text of the Limit node to the budget limit entered by the user and append it to the BudgetLimit node
+            Dim limitNode As XmlNode = xmlDoc.CreateElement("Limit")
+            limitNode.InnerText = strBudgetLimit
+            budgetLimitNode.AppendChild(limitNode)
 
-                ' Display a message box to confirm that the budget limit has been set
-                MessageBox.Show("Budget limit set successfully!", "Set Budget Limit")
-            End If
-        ElseIf strBudgetLimit <> "none" Then
-            ' Get the root node and the BudgetLimit node
-            Dim rootNode As XmlNode = xmlDoc.SelectSingleNode("Records")
-            Dim budgetLimitNode As XmlNode = xmlDoc.SelectSingleNode("//BudgetLimit")
+            ' Save the XML file
+            xmlDoc.Save(xmlFilePath)
 
-            ' Check if the BudgetLimit node exists
-            If budgetLimitNode IsNot Nothing Then
-                ' Remove the Limit node
-                budgetLimitNode.RemoveChild(budgetLimitNode.SelectSingleNode("Limit"))
-
-                ' Create a new Limit node and set the inner text of the Limit node to the budget limit entered by the user and append it to the BudgetLimit node
-                Dim limitNode As XmlNode = xmlDoc.CreateElement("Limit")
-                limitNode.InnerText = strBudgetLimit
-                budgetLimitNode.AppendChild(limitNode)
-
-                ' Save the XML file
-                xmlDoc.Save(xmlFilePath)
-
-                ' Display a message box to confirm that the budget limit has been set
-                MessageBox.Show("Budget limit set successfully!", "Set Budget Limit")
-            End If
+            ' Display a message box to confirm that the budget limit has been set
+            MessageBox.Show("Budget limit set successfully!", "Set Budget Limit")
         End If
 
         ' Load the financial report for all time periods
