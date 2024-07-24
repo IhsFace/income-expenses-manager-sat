@@ -22,12 +22,12 @@ Public Class Form1
             ' Create a new XML file with the root node
             Dim xmlDeclaration As XmlDeclaration = xmlDoc.CreateXmlDeclaration("1.0", "UTF-8", Nothing)
             xmlDoc.AppendChild(xmlDeclaration)
-            Dim rootNode As XmlNode = xmlDoc.CreateElement("Records")
+            Dim rootNode As XmlNode = xmlDoc.CreateElement("records")
             xmlDoc.AppendChild(rootNode)
 
             ' Create the BudgetLimit node and the Limit node
-            Dim budgetLimitNode As XmlNode = xmlDoc.CreateElement("BudgetLimit")
-            Dim limitNode As XmlNode = xmlDoc.CreateElement("Limit")
+            Dim budgetLimitNode As XmlNode = xmlDoc.CreateElement("budgetLimit")
+            Dim limitNode As XmlNode = xmlDoc.CreateElement("limit")
 
             ' Set the inner text of the Limit node to 0 and append it to the BudgetLimit node, then append the BudgetLimit node to the root node
             limitNode.InnerText = "0"
@@ -56,15 +56,15 @@ Public Class Form1
         End If
 
         ' Create the Category node and the Name node
-        Dim categoryNode As XmlNode = xmlDoc.CreateElement("Category")
-        Dim nameNode As XmlNode = xmlDoc.CreateElement("Name")
+        Dim categoryNode As XmlNode = xmlDoc.CreateElement("category")
+        Dim nameNode As XmlNode = xmlDoc.CreateElement("name")
 
         ' Set the inner text of the Name node to the name entered by the user and append it to the Category node
         nameNode.InnerText = strName
         categoryNode.AppendChild(nameNode)
 
         ' Get the root node and append the Category node to it
-        Dim rootNode As XmlNode = xmlDoc.SelectSingleNode("Records")
+        Dim rootNode As XmlNode = xmlDoc.SelectSingleNode("records")
         rootNode.AppendChild(categoryNode)
 
         xmlDoc.Save(xmlFilePath)
@@ -97,11 +97,11 @@ Public Class Form1
         End If
 
         ' Get the Category nodes and loop through them
-        Dim categoryNodes As XmlNodeList = xmlDoc.SelectNodes("Records/Category")
+        Dim categoryNodes As XmlNodeList = xmlDoc.SelectNodes("records/category")
 
         For Each categoryNode As XmlNode In categoryNodes
             ' Get the Name node of the current category node
-            Dim nameNode As XmlNode = categoryNode.SelectSingleNode("Name")
+            Dim nameNode As XmlNode = categoryNode.SelectSingleNode("name")
 
             ' Check if the Name node exists and its inner text is equal to the selected category
             If nameNode IsNot Nothing And nameNode.InnerText = cbxCategory.SelectedItem Then
@@ -109,17 +109,17 @@ Public Class Form1
                 categoryNode.RemoveChild(nameNode)
 
                 ' Create a new Name node and set the inner text of the Name node to the name entered by the user and append it to the Category node
-                Dim newNameNode As XmlNode = xmlDoc.CreateElement("Name")
+                Dim newNameNode As XmlNode = xmlDoc.CreateElement("name")
 
                 newNameNode.InnerText = strName
                 categoryNode.AppendChild(newNameNode)
 
                 ' Get the Record nodes and loop through them
-                Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//Record")
+                Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//record")
 
                 For Each recordNode As XmlNode In recordNodes
                     ' Get the Category node of the current Record node
-                    Dim selectedCategoryNode As XmlNode = recordNode.SelectSingleNode("Category")
+                    Dim selectedCategoryNode As XmlNode = recordNode.SelectSingleNode("category")
 
                     ' Check if the Category node exists and its inner text is equal to the selected category
                     If selectedCategoryNode IsNot Nothing And selectedCategoryNode.InnerText = cbxCategory.SelectedItem Then
@@ -127,7 +127,7 @@ Public Class Form1
                         recordNode.RemoveChild(selectedCategoryNode)
 
                         ' Create a new Category node and set the inner text of the Category node to the name entered by the user and append it to the Record node
-                        Dim newCategoryNode As XmlNode = xmlDoc.CreateElement("Category")
+                        Dim newCategoryNode As XmlNode = xmlDoc.CreateElement("category")
 
                         newCategoryNode.InnerText = strName
                         recordNode.AppendChild(newCategoryNode)
@@ -157,7 +157,7 @@ Public Class Form1
         End If
 
         ' Display an input box to confirm the deletion of the category
-        Dim strConfirm As String = LCase(InputBox("Are you sure you want to delete the category " & cbxCategory.SelectedItem & "? (Y or N):", "Delete Category", "N"))
+        Dim strConfirm As String = LCase(InputBox("Are you sure you want to delete the category " & cbxCategory.SelectedItem & "? (y or n):", "Delete Category", "n"))
 
         ' Check if the user has confirmed the deletion
         If strConfirm <> "y" Then
@@ -166,14 +166,14 @@ Public Class Form1
             Return
         ElseIf strConfirm = "y" Then
             ' Get the Category nodes, the Record nodes and the root node
-            Dim categoryNodes As XmlNodeList = xmlDoc.SelectNodes("Records/Category")
-            Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//Record")
-            Dim rootNode As XmlNode = xmlDoc.SelectSingleNode("Records")
+            Dim categoryNodes As XmlNodeList = xmlDoc.SelectNodes("records/category")
+            Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//record")
+            Dim rootNode As XmlNode = xmlDoc.SelectSingleNode("records")
 
             ' Loop through the Record nodes
             For Each recordNode As XmlNode In recordNodes
                 ' Get the Category node of the current Record node
-                Dim selectedCategoryNode As XmlNode = recordNode.SelectSingleNode("Category")
+                Dim selectedCategoryNode As XmlNode = recordNode.SelectSingleNode("category")
 
                 ' Check if the Category node exists and its inner text is equal to the selected category
                 If selectedCategoryNode IsNot Nothing And selectedCategoryNode.InnerText = cbxCategory.SelectedItem Then
@@ -183,7 +183,7 @@ Public Class Form1
                     ' Loop through the Category nodes
                     For Each categoryNode As XmlNode In categoryNodes
                         ' Get the Name node of the current Category node
-                        Dim nameNode As XmlNode = categoryNode.SelectSingleNode("Name")
+                        Dim nameNode As XmlNode = categoryNode.SelectSingleNode("name")
 
                         ' Check if the Name node exists and its inner text is equal to the selected category
                         If nameNode IsNot Nothing And nameNode.InnerText = cbxCategory.SelectedItem Then
@@ -225,16 +225,23 @@ Public Class Form1
             Return
         End If
 
+        ' Check if the amount entered by the user is numeric
+        If Not IsNumeric(strIncomeExpense) Then
+            ' Display a message box if the user has not entered a numeric amount
+            MessageBox.Show("Please enter a numeric amount!", "Add Income/Expense")
+            Return
+        End If
+
         ' Declare the integer variables to store the maximum and new IDs to be used in determining the ID of the new record
         Dim intMaxId As Integer = -1
         Dim intNewId As Integer
 
         ' Get the Record nodes and the BudgetLimit node
-        Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//Record")
-        Dim budgetLimitNode As XmlNode = xmlDoc.SelectSingleNode("//BudgetLimit")
+        Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//record")
+        Dim budgetLimitNode As XmlNode = xmlDoc.SelectSingleNode("//budgetLimit")
 
         ' Get the limit from the Limit node and declare the boolean variable to store whether the budget limit has been exceeded
-        Dim intBudgetLimit As Integer = budgetLimitNode.SelectSingleNode("Limit").InnerText
+        Dim intBudgetLimit As Integer = budgetLimitNode.SelectSingleNode("limit").InnerText
         Dim blnExceededLimit As Boolean = False
         Dim intNetIncome As Integer
 
@@ -250,12 +257,12 @@ Public Class Form1
         ' Loop through the Record nodes
         For Each selectedNode As XmlNode In recordNodes
             ' Get the Id node of the current Record node
-            Dim selectedIdNode As XmlNode = selectedNode.SelectSingleNode("Id")
+            Dim selectedIdNode As XmlNode = selectedNode.SelectSingleNode("id")
 
             ' Check if the Id node exists and its value is greater than the maximum ID
             If selectedIdNode IsNot Nothing And Val(selectedIdNode.InnerText) > intMaxId Then
                 ' Set the maximum ID to the value of the Id node
-                intMaxId = Val(selectedNode.SelectSingleNode("Id").InnerText)
+                intMaxId = Val(selectedNode.SelectSingleNode("id").InnerText)
             End If
         Next
 
@@ -263,35 +270,35 @@ Public Class Form1
         intNewId = intMaxId + 1
 
         ' Create the Record node and the Id node
-        Dim recordNode As XmlNode = xmlDoc.CreateElement("Record")
-        Dim idNode As XmlNode = xmlDoc.CreateElement("Id")
+        Dim recordNode As XmlNode = xmlDoc.CreateElement("record")
+        Dim idNode As XmlNode = xmlDoc.CreateElement("id")
 
         ' Set the inner text of the Id node to the new ID and append it to the Record node
         idNode.InnerText = intNewId
         recordNode.AppendChild(idNode)
 
         ' Create the Category node and set the inner text of the Category node to the selected category, then append it to the Record node
-        Dim categoryNode As XmlNode = xmlDoc.CreateElement("Category")
+        Dim categoryNode As XmlNode = xmlDoc.CreateElement("category")
         categoryNode.InnerText = cbxCategory.SelectedItem
         recordNode.AppendChild(categoryNode)
 
         ' Create the Amount node and set the inner text of the Amount node to the amount entered by the user, then append it to the Record node
-        Dim amountNode As XmlNode = xmlDoc.CreateElement("Amount")
+        Dim amountNode As XmlNode = xmlDoc.CreateElement("amount")
         amountNode.InnerText = Val(txtIncomeExpense.Text)
         recordNode.AppendChild(amountNode)
 
         ' Create the CreatedAt node and set the inner text of the CreatedAt node to the current date and time, then append it to the Record node
-        Dim createdAtNode As XmlNode = xmlDoc.CreateElement("CreatedAt")
+        Dim createdAtNode As XmlNode = xmlDoc.CreateElement("createdAt")
         createdAtNode.InnerText = Date.Now()
         recordNode.AppendChild(createdAtNode)
 
         ' Create the UpdatedAt node and set the inner text of the UpdatedAt node to the current date and time, then append it to the Record node
-        Dim updatedAtNode As XmlNode = xmlDoc.CreateElement("UpdatedAt")
+        Dim updatedAtNode As XmlNode = xmlDoc.CreateElement("updatedAt")
         updatedAtNode.InnerText = Date.Now()
         recordNode.AppendChild(updatedAtNode)
 
         ' Get the root node and append the Record node to it
-        Dim rootNode As XmlNode = xmlDoc.SelectSingleNode("Records")
+        Dim rootNode As XmlNode = xmlDoc.SelectSingleNode("records")
         rootNode.AppendChild(recordNode)
 
         ' Save the XML file
@@ -325,6 +332,13 @@ Public Class Form1
             Return
         End If
 
+        ' Check if the amount entered by the user is numeric
+        If Not IsNumeric(strIncomeExpense) Then
+            ' Display a message box if the user has not entered a numeric amount
+            MessageBox.Show("Please enter a numeric amount!", "Edit Income/Expense")
+            Return
+        End If
+
         ' Check if the user has selected a record
         If String.IsNullOrWhiteSpace(txtSelectedRecord.Text) Then
             ' Display a message box if the user has not selected a record
@@ -332,12 +346,19 @@ Public Class Form1
             Return
         End If
 
+        ' Check if the record selected by the user is numeric
+        If Not IsNumeric(txtSelectedRecord.Text) Then
+            ' Display a message box if the user has not selected a numeric record
+            MessageBox.Show("Please select a numeric record!", "Edit Income/Expense")
+            Return
+        End If
+
         ' Get the Record nodes and the BudgetLimit node
-        Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//Record")
-        Dim budgetLimitNode As XmlNode = xmlDoc.SelectSingleNode("//BudgetLimit")
+        Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//record")
+        Dim budgetLimitNode As XmlNode = xmlDoc.SelectSingleNode("//budgetLimit")
 
         ' Get the limit from the Limit node and declare the boolean variable to store whether the budget limit has been exceeded
-        Dim intBudgetLimit As Integer = budgetLimitNode.SelectSingleNode("Limit").InnerText
+        Dim intBudgetLimit As Integer = budgetLimitNode.SelectSingleNode("limit").InnerText
         Dim blnExceededLimit As Boolean = False
         Dim intNetIncome As Integer
 
@@ -353,27 +374,27 @@ Public Class Form1
         ' Loop through the Record nodes
         For Each recordNode As XmlNode In recordNodes
             ' Get the Id, amount and updatedAt nodes of the current Record node
-            Dim idNode As XmlNode = recordNode.SelectSingleNode("Id")
-            Dim amountNode As XmlNode = recordNode.SelectSingleNode("Amount")
-            Dim updatedAtNode As XmlNode = recordNode.SelectSingleNode("UpdatedAt")
+            Dim idNode As XmlNode = recordNode.SelectSingleNode("id")
+            Dim amountNode As XmlNode = recordNode.SelectSingleNode("amount")
+            Dim updatedAtNode As XmlNode = recordNode.SelectSingleNode("updatedAt")
 
             ' Check if the Id node exists and its inner text is equal to the selected record
             If idNode IsNot Nothing And idNode.InnerText = Val(txtSelectedRecord.Text) Then
                 ' Check if the amount and updatedAt nodes exist
                 If amountNode IsNot Nothing And updatedAtNode IsNot Nothing Then
                     ' Remove the Amount node
-                    recordNode.RemoveChild(recordNode.SelectSingleNode("Amount"))
+                    recordNode.RemoveChild(recordNode.SelectSingleNode("amount"))
 
                     ' Create a new Amount node and set the inner text of the Amount node to the amount entered by the user and append it to the Record node
-                    Dim newAmountNode As XmlNode = xmlDoc.CreateElement("Amount")
+                    Dim newAmountNode As XmlNode = xmlDoc.CreateElement("amount")
                     newAmountNode.InnerText = strIncomeExpense
                     recordNode.AppendChild(newAmountNode)
 
                     ' Remove the UpdatedAt node
-                    recordNode.RemoveChild(recordNode.SelectSingleNode("UpdatedAt"))
+                    recordNode.RemoveChild(recordNode.SelectSingleNode("updatedAt"))
 
                     ' Create a new UpdatedAt node and set the inner text of the UpdatedAt node to the current date and time and append it to the Record node
-                    Dim newUpdatedAtNode As XmlNode = xmlDoc.CreateElement("UpdatedAt")
+                    Dim newUpdatedAtNode As XmlNode = xmlDoc.CreateElement("updatedAt")
                     newUpdatedAtNode.InnerText = Date.Now()
                     recordNode.AppendChild(newUpdatedAtNode)
 
@@ -412,7 +433,7 @@ Public Class Form1
         End If
 
         ' Display an input box to confirm the deletion of the record
-        Dim strConfirm As String = LCase(InputBox("Are you sure you want to delete the record " & strSelectedRecord & "? (Y or N):", "Delete Income/Expense", "N"))
+        Dim strConfirm As String = LCase(InputBox("Are you sure you want to delete Record " & strSelectedRecord & "? (y or n):", "Delete Income/Expense", "n"))
 
         ' Check if the user has confirmed the deletion
         If strConfirm <> "y" Then
@@ -421,12 +442,12 @@ Public Class Form1
             Return
         ElseIf strConfirm = "y" Then
             ' Get the Record nodes, the BudgetLimit node and the root node
-            Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//Record")
-            Dim budgetLimitNode As XmlNode = xmlDoc.SelectSingleNode("//BudgetLimit")
-            Dim rootNode As XmlNode = xmlDoc.SelectSingleNode("Records")
+            Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//record")
+            Dim budgetLimitNode As XmlNode = xmlDoc.SelectSingleNode("//budgetLimit")
+            Dim rootNode As XmlNode = xmlDoc.SelectSingleNode("records")
 
             ' Get the limit from the Limit node and declare the boolean variable to store whether the budget limit has been exceeded
-            Dim intBudgetLimit As Integer = budgetLimitNode.SelectSingleNode("Limit").InnerText
+            Dim intBudgetLimit As Integer = budgetLimitNode.SelectSingleNode("limit").InnerText
             Dim blnExceededLimit As Boolean = False
             Dim intNetIncome As Integer
 
@@ -442,7 +463,7 @@ Public Class Form1
             ' Loop through the Record nodes
             For Each recordNode As XmlNode In recordNodes
                 ' Get the Id node of the current Record node
-                Dim idNode As XmlNode = recordNode.SelectSingleNode("Id")
+                Dim idNode As XmlNode = recordNode.SelectSingleNode("id")
 
                 ' Check if the Id node exists and its inner text is equal to the selected record
                 If idNode IsNot Nothing And idNode.InnerText = Val(strSelectedRecord) Then
@@ -474,7 +495,7 @@ Public Class Form1
     ' The btnSetBudgetLimit_Click event handler is executed when the Set Budget Limit button is clicked
     Private Sub btnSetBudgetLimit_Click(sender As Object, e As EventArgs) Handles btnSetBudgetLimit.Click
         ' Display an input box to get the budget limit
-        Dim strBudgetLimit As String = LCase(InputBox("Enter the budget limit (or type None to remove):", "Set Budget Limit", "1000"))
+        Dim strBudgetLimit As String = LCase(InputBox("Enter the budget limit (or type 0 to remove):", "Set Budget Limit", "0"))
 
         ' Check if the user has entered a budget limit
         If String.IsNullOrWhiteSpace(strBudgetLimit) Then
@@ -483,20 +504,24 @@ Public Class Form1
             Return
         End If
 
-        ' Check if the budget limit is none
-        If strBudgetLimit = "none" Then strBudgetLimit = "0"
+        ' Check if the budget limit entered by the user is numeric
+        If Not IsNumeric(strBudgetLimit) Then
+            ' Display a message box if the user has not entered a numeric budget limit
+            MessageBox.Show("Please enter a numeric budget limit!", "Set Budget Limit")
+            Return
+        End If
 
         ' Get the root node and the BudgetLimit node
-        Dim rootNode As XmlNode = xmlDoc.SelectSingleNode("Records")
-        Dim budgetLimitNode As XmlNode = xmlDoc.SelectSingleNode("//BudgetLimit")
+        Dim rootNode As XmlNode = xmlDoc.SelectSingleNode("records")
+        Dim budgetLimitNode As XmlNode = xmlDoc.SelectSingleNode("//budgetLimit")
 
         ' Check if the BudgetLimit node exists
         If budgetLimitNode IsNot Nothing Then
             ' Remove the Limit node
-            budgetLimitNode.RemoveChild(budgetLimitNode.SelectSingleNode("Limit"))
+            budgetLimitNode.RemoveChild(budgetLimitNode.SelectSingleNode("limit"))
 
             ' Create a new Limit node and set the inner text of the Limit node to the budget limit entered by the user and append it to the BudgetLimit node
-            Dim limitNode As XmlNode = xmlDoc.CreateElement("Limit")
+            Dim limitNode As XmlNode = xmlDoc.CreateElement("limit")
             limitNode.InnerText = strBudgetLimit
             budgetLimitNode.AppendChild(limitNode)
 
@@ -529,6 +554,20 @@ Public Class Form1
             Return
         End If
 
+        ' Check if the year entered by the user is numeric
+        If Not IsNumeric(strTimePeriod) And strTimePeriod <> "all" Then
+            ' Display a message box if the user has not entered a numeric year
+            MessageBox.Show("Please enter a numeric time period or select all time periods!", "View Report")
+            Return
+        End If
+
+        ' Check if the year entered by the user is negative
+        If strTimePeriod <> "all" And Val(strTimePeriod) < 0 Then
+            ' Display a message box if the user has entered a negative year
+            MessageBox.Show("Please enter a positive numeric time period!", "View Report")
+            Return
+        End If
+
         ' Load the financial report for the year entered by the user
         LoadFinancialReport(strTimePeriod)
     End Sub
@@ -543,7 +582,7 @@ Public Class Form1
         Dim intCurrentIndex As Integer = 0
 
         ' Display an input box to get the sort option for the records
-        Dim strSortOption As String = InputBox("Enter the sort option for the records (Id or Amount):", "Sort Records", "Amount")
+        Dim strSortOption As String = LCase(InputBox("Enter the sort option for the records (id or amount):", "Sort Records", "amount"))
 
         ' Check if the user has entered a sort option
         If String.IsNullOrWhiteSpace(strSortOption) Then
@@ -552,8 +591,15 @@ Public Class Form1
             Return
         End If
 
+        ' Check if the sort option entered by the user is not id or amount
+        If strSortOption <> "id" And strSortOption <> "amount" Then
+            ' Display a message box if the user has entered an invalid sort option
+            MessageBox.Show("Please enter a valid sort option (id or amount)!", "Sort Records")
+            Return
+        End If
+
         ' Display an input box to get the sort order for the records
-        Dim strSortOrder As String = LCase(InputBox("Sort the records in descending order (Y or N):", "Sort Records", "N"))
+        Dim strSortOrder As String = LCase(InputBox("Sort the records in descending order (y or n):", "Sort Records", "n"))
 
         ' Check if the user has entered a sort order
         If String.IsNullOrWhiteSpace(strSortOrder) Then
@@ -563,7 +609,7 @@ Public Class Form1
         End If
 
         ' Get the Record nodes
-        Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//Record")
+        Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//record")
 
         ' Loop through the Record nodes
         For Each recordNode As XmlNode In recordNodes
@@ -639,7 +685,7 @@ Public Class Form1
                 ' Check if the selected node based on the sort option is equal to the current index of the integer array
                 If recordNode.SelectSingleNode(strSortOption).InnerText = intNbrsArray(c) Then
                     ' Add the record to the list box
-                    lstDisplay.Items.Add(recordNode.SelectSingleNode("Id").InnerText & ": $" & recordNode.SelectSingleNode("Amount").InnerText)
+                    lstDisplay.Items.Add(recordNode.SelectSingleNode("id").InnerText & ": $" & recordNode.SelectSingleNode("amount").InnerText)
                 End If
             Next
         Next
@@ -655,12 +701,19 @@ Public Class Form1
         Dim intCurrentIndex As Integer = 0
 
         ' Display an input box to get the search request type
-        Dim strSearchRequestType As String = InputBox("Enter the search request type (Id or Amount):", "Search Records", "Amount")
+        Dim strSearchRequestType As String = LCase(InputBox("Enter the search request type (id or amount):", "Search Records", "amount"))
 
         ' Check if the user has entered a search request type
         If String.IsNullOrWhiteSpace(strSearchRequestType) Then
             ' Display a message box if the user has not entered a search request type
             MessageBox.Show("Operation cancelled.", "Search Records")
+            Return
+        End If
+
+        ' Check if the search request type entered by the user is not id or amount
+        If strSearchRequestType <> "id" And strSearchRequestType <> "amount" Then
+            ' Display a message box if the user has entered an invalid search request type
+            MessageBox.Show("Please enter a valid search request type (id or amount)!", "Search Records")
             Return
         End If
 
@@ -674,8 +727,15 @@ Public Class Form1
             Return
         End If
 
+        ' Check if the search request item entered by the user is numeric
+        If Not IsNumeric(strSearchRequestItem) Then
+            ' Display a message box if the user has not entered a numeric search request item
+            MessageBox.Show("Please enter a numeric search request item!", "Search Records")
+            Return
+        End If
+
         ' Get the Record nodes
-        Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//Record")
+        Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//record")
 
         ' Loop through the Record nodes
         For Each recordNode As XmlNode In recordNodes
@@ -721,7 +781,7 @@ Public Class Form1
                 ' Check if the selected node based on the search request type is equal to the search request item
                 If recordNode.SelectSingleNode(strSearchRequestType).InnerText = strSearchRequestItem Then
                     ' Add the record to the list box
-                    lstDisplay.Items.Add(recordNode.SelectSingleNode("Id").InnerText & ": $" & recordNode.SelectSingleNode("Amount").InnerText)
+                    lstDisplay.Items.Add(recordNode.SelectSingleNode("id").InnerText & ": $" & recordNode.SelectSingleNode("amount").InnerText)
                 End If
             Next
         Else
@@ -744,7 +804,7 @@ Public Class Form1
     ' The subroutine PopulateComboBox is used to populate the combo box with the categories from the XML file
     Private Sub PopulateComboBox()
         ' Get the Category nodes
-        Dim categoryNodes As XmlNodeList = xmlDoc.SelectNodes("Records/Category")
+        Dim categoryNodes As XmlNodeList = xmlDoc.SelectNodes("records/category")
 
         ' Clear the combo box and add the "All" item
         cbxCategory.Items.Clear()
@@ -753,7 +813,7 @@ Public Class Form1
         ' Loop through the Category nodes
         For Each categoryNode As XmlNode In categoryNodes
             ' Add the Name node inner text to the combo box
-            cbxCategory.Items.Add(categoryNode.SelectSingleNode("Name").InnerText)
+            cbxCategory.Items.Add(categoryNode.SelectSingleNode("name").InnerText)
         Next
 
         ' Set the selected index of the combo box to 0
@@ -763,7 +823,7 @@ Public Class Form1
     ' The subroutine LoadRecords is used to load the records from the XML file based on the selected category
     Private Sub LoadRecords()
         ' Get the Record nodes
-        Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//Record")
+        Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//record")
 
         ' Set the displayed records counter to 0
         intDisplayedRecords = 0
@@ -775,9 +835,9 @@ Public Class Form1
         ' Loop through the Record nodes
         For Each recordNode As XmlNode In recordNodes
             ' Check if the selected category is "All" or the Category node inner text is equal to the selected category
-            If cbxCategory.SelectedItem = "All" Or recordNode.SelectSingleNode("Category").InnerText = cbxCategory.SelectedItem Then
+            If cbxCategory.SelectedItem = "All" Or recordNode.SelectSingleNode("category").InnerText = cbxCategory.SelectedItem Then
                 ' Add the record to the list box and increment the displayed records counter
-                lstDisplay.Items.Add(recordNode.SelectSingleNode("Id").InnerText & ": $" & recordNode.SelectSingleNode("Amount").InnerText)
+                lstDisplay.Items.Add(recordNode.SelectSingleNode("id").InnerText & ": $" & recordNode.SelectSingleNode("amount").InnerText)
                 intDisplayedRecords = intDisplayedRecords + 1
             End If
         Next
@@ -793,11 +853,11 @@ Public Class Form1
         Dim intNetIncome As Integer
 
         ' Get the Record nodes and the BudgetLimit node
-        Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//Record")
-        Dim budgetLimitNode As XmlNode = xmlDoc.SelectSingleNode("//BudgetLimit")
+        Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//record")
+        Dim budgetLimitNode As XmlNode = xmlDoc.SelectSingleNode("//budgetLimit")
 
         ' Get the limit from the Limit node
-        Dim intBudgetLimit As Integer = budgetLimitNode.SelectSingleNode("Limit").InnerText
+        Dim intBudgetLimit As Integer = budgetLimitNode.SelectSingleNode("limit").InnerText
 
         ' Clear the list box
         lstDisplay.Items.Clear()
@@ -805,17 +865,17 @@ Public Class Form1
         ' Loop through the Record nodes
         For Each recordNode As XmlNode In recordNodes
             ' Get the UpdatedAt node of the current Record node
-            Dim updatedAtNode As XmlNode = recordNode.SelectSingleNode("UpdatedAt")
+            Dim updatedAtNode As XmlNode = recordNode.SelectSingleNode("updatedAt")
 
             ' Check if the UpdatedAt node exists and its inner text contains the selected time period
             If updatedAtNode IsNot Nothing And (updatedAtNode.InnerText.Contains(strTimePeriod) OrElse strTimePeriod = "all") Then
                 ' Check if the Amount node inner text starts with a negative sign
-                If recordNode.SelectSingleNode("Amount").InnerText.StartsWith("-") Then
+                If recordNode.SelectSingleNode("amount").InnerText.StartsWith("-") Then
                     ' Add the amount to the total expenses
-                    intTotalExpenses = intTotalExpenses + Val(recordNode.SelectSingleNode("Amount").InnerText)
+                    intTotalExpenses = intTotalExpenses + Val(recordNode.SelectSingleNode("amount").InnerText)
                 Else
                     ' Add the amount to the total income
-                    intTotalIncome = intTotalIncome + Val(recordNode.SelectSingleNode("Amount").InnerText)
+                    intTotalIncome = intTotalIncome + Val(recordNode.SelectSingleNode("amount").InnerText)
                 End If
             End If
         Next
