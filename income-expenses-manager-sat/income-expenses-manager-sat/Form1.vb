@@ -536,42 +536,6 @@ Public Class Form1
         LoadFinancialReport("all")
     End Sub
 
-    ' The btnViewRecords_Click event handler is executed when the View Records button is clicked
-    Private Sub btnViewRecords_Click(sender As Object, e As EventArgs) Handles btnViewRecords.Click
-        ' Load the records
-        LoadRecords()
-    End Sub
-
-    ' The btnViewReport_Click event handler is executed when the View Report button is clicked
-    Private Sub btnViewReport_Click(sender As Object, e As EventArgs) Handles btnViewReport.Click
-        ' Display an input box to get the year for the financial report
-        Dim strTimePeriod As String = LCase(InputBox("Enter the year for the financial report (e.g. All, 2024):", "Financial Report", "2024"))
-
-        ' Check if the user has entered a year
-        If String.IsNullOrWhiteSpace(strTimePeriod) Then
-            ' Display a message box if the user has not entered a year
-            MessageBox.Show("Operation cancelled.", "View Report")
-            Return
-        End If
-
-        ' Check if the year entered by the user is numeric
-        If Not IsNumeric(strTimePeriod) And strTimePeriod <> "all" Then
-            ' Display a message box if the user has not entered a numeric year
-            MessageBox.Show("Please enter a numeric time period or select all time periods!", "View Report")
-            Return
-        End If
-
-        ' Check if the year entered by the user is negative
-        If strTimePeriod <> "all" And Val(strTimePeriod) < 0 Then
-            ' Display a message box if the user has entered a negative year
-            MessageBox.Show("Please enter a positive numeric time period!", "View Report")
-            Return
-        End If
-
-        ' Load the financial report for the year entered by the user
-        LoadFinancialReport(strTimePeriod)
-    End Sub
-
     ' The btnSortRecords_Click event handler is executed when the Sort Records button is clicked
     Private Sub btnSortRecords_Click(sender As Object, e As EventArgs) Handles btnSortRecords.Click
         ' Load the records
@@ -788,6 +752,42 @@ Public Class Form1
             ' Display a message box if the item has not been found
             MessageBox.Show("Item not found!", "Search Records")
         End If
+    End Sub
+
+    ' The btnViewRecords_Click event handler is executed when the View Records button is clicked
+    Private Sub btnViewRecords_Click(sender As Object, e As EventArgs) Handles btnViewRecords.Click
+        ' Load the records
+        LoadRecords()
+    End Sub
+
+    ' The btnViewReport_Click event handler is executed when the View Report button is clicked
+    Private Sub btnViewReport_Click(sender As Object, e As EventArgs) Handles btnViewReport.Click
+        ' Display an input box to get the year for the financial report
+        Dim strTimePeriod As String = LCase(InputBox("Enter the year for the financial report (e.g. All, 2024):", "Financial Report", "2024"))
+
+        ' Check if the user has entered a year
+        If String.IsNullOrWhiteSpace(strTimePeriod) Then
+            ' Display a message box if the user has not entered a year
+            MessageBox.Show("Operation cancelled.", "View Report")
+            Return
+        End If
+
+        ' Check if the year entered by the user is numeric
+        If Not IsNumeric(strTimePeriod) And strTimePeriod <> "all" Then
+            ' Display a message box if the user has not entered a numeric year
+            MessageBox.Show("Please enter a numeric time period or select all time periods!", "View Report")
+            Return
+        End If
+
+        ' Check if the year entered by the user is negative
+        If strTimePeriod <> "all" And Val(strTimePeriod) < 0 Then
+            ' Display a message box if the user has entered a negative year
+            MessageBox.Show("Please enter a positive numeric time period!", "View Report")
+            Return
+        End If
+
+        ' Load the financial report for the year entered by the user
+        LoadFinancialReport(strTimePeriod)
     End Sub
 
     ' The btnClear_Click event handler is executed when the Clear button is clicked
