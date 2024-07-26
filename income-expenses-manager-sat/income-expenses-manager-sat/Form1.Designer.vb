@@ -24,10 +24,10 @@ Partial Class Form1
     Private Sub InitializeComponent()
         lblTitle = New Label()
         lblCategory = New Label()
-        lblIncomeExpense = New Label()
+        lblIncome = New Label()
         lblSelectedRecord = New Label()
         cbxCategory = New ComboBox()
-        txtIncomeExpense = New TextBox()
+        txtIncome = New TextBox()
         txtSelectedRecord = New TextBox()
         btnAddCategory = New Button()
         btnEditCategory = New Button()
@@ -42,6 +42,8 @@ Partial Class Form1
         btnSearchRecords = New Button()
         btnClear = New Button()
         lstDisplay = New ListBox()
+        lblExpense = New Label()
+        txtExpense = New TextBox()
         SuspendLayout()
         ' 
         ' lblTitle
@@ -49,7 +51,7 @@ Partial Class Form1
         lblTitle.AutoSize = True
         lblTitle.Font = New Font("Arial Black", 16.125F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblTitle.ForeColor = SystemColors.Control
-        lblTitle.Location = New Point(50, 50)
+        lblTitle.Location = New Point(50, 75)
         lblTitle.Name = "lblTitle"
         lblTitle.Size = New Size(744, 60)
         lblTitle.TabIndex = 0
@@ -66,49 +68,49 @@ Partial Class Form1
         lblCategory.TabIndex = 1
         lblCategory.Text = "Category"
         ' 
-        ' lblIncomeExpense
+        ' lblIncome
         ' 
-        lblIncomeExpense.AutoSize = True
-        lblIncomeExpense.Font = New Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        lblIncomeExpense.ForeColor = SystemColors.Control
-        lblIncomeExpense.Location = New Point(50, 300)
-        lblIncomeExpense.Name = "lblIncomeExpense"
-        lblIncomeExpense.Size = New Size(267, 37)
-        lblIncomeExpense.TabIndex = 2
-        lblIncomeExpense.Text = "Income/Expense"
+        lblIncome.AutoSize = True
+        lblIncome.Font = New Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblIncome.ForeColor = SystemColors.Control
+        lblIncome.Location = New Point(50, 275)
+        lblIncome.Name = "lblIncome"
+        lblIncome.Size = New Size(127, 37)
+        lblIncome.TabIndex = 2
+        lblIncome.Text = "Income"
         ' 
         ' lblSelectedRecord
         ' 
         lblSelectedRecord.AutoSize = True
         lblSelectedRecord.Font = New Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblSelectedRecord.ForeColor = SystemColors.Control
-        lblSelectedRecord.Location = New Point(50, 400)
+        lblSelectedRecord.Location = New Point(50, 425)
         lblSelectedRecord.Name = "lblSelectedRecord"
-        lblSelectedRecord.Size = New Size(268, 37)
-        lblSelectedRecord.TabIndex = 3
-        lblSelectedRecord.Text = "Selected Record"
+        lblSelectedRecord.Size = New Size(166, 37)
+        lblSelectedRecord.TabIndex = 4
+        lblSelectedRecord.Text = "Record ID"
         ' 
         ' cbxCategory
         ' 
         cbxCategory.FormattingEnabled = True
-        cbxCategory.Location = New Point(323, 200)
+        cbxCategory.Location = New Point(222, 200)
         cbxCategory.Name = "cbxCategory"
-        cbxCategory.Size = New Size(677, 44)
-        cbxCategory.TabIndex = 4
+        cbxCategory.Size = New Size(778, 44)
+        cbxCategory.TabIndex = 5
         ' 
-        ' txtIncomeExpense
+        ' txtIncome
         ' 
-        txtIncomeExpense.Location = New Point(323, 300)
-        txtIncomeExpense.Name = "txtIncomeExpense"
-        txtIncomeExpense.Size = New Size(677, 44)
-        txtIncomeExpense.TabIndex = 5
+        txtIncome.Location = New Point(222, 273)
+        txtIncome.Name = "txtIncome"
+        txtIncome.Size = New Size(778, 44)
+        txtIncome.TabIndex = 6
         ' 
         ' txtSelectedRecord
         ' 
-        txtSelectedRecord.Location = New Point(323, 400)
+        txtSelectedRecord.Location = New Point(222, 425)
         txtSelectedRecord.Name = "txtSelectedRecord"
-        txtSelectedRecord.Size = New Size(677, 44)
-        txtSelectedRecord.TabIndex = 6
+        txtSelectedRecord.Size = New Size(778, 44)
+        txtSelectedRecord.TabIndex = 8
         ' 
         ' btnAddCategory
         ' 
@@ -117,7 +119,7 @@ Partial Class Form1
         btnAddCategory.Location = New Point(50, 550)
         btnAddCategory.Name = "btnAddCategory"
         btnAddCategory.Size = New Size(300, 100)
-        btnAddCategory.TabIndex = 7
+        btnAddCategory.TabIndex = 9
         btnAddCategory.Text = "Add Category"
         btnAddCategory.UseVisualStyleBackColor = False
         ' 
@@ -128,7 +130,7 @@ Partial Class Form1
         btnEditCategory.Location = New Point(375, 550)
         btnEditCategory.Name = "btnEditCategory"
         btnEditCategory.Size = New Size(300, 100)
-        btnEditCategory.TabIndex = 8
+        btnEditCategory.TabIndex = 10
         btnEditCategory.Text = "Edit Category"
         btnEditCategory.UseVisualStyleBackColor = False
         ' 
@@ -140,7 +142,7 @@ Partial Class Form1
         btnDeleteCategory.Location = New Point(700, 550)
         btnDeleteCategory.Name = "btnDeleteCategory"
         btnDeleteCategory.Size = New Size(300, 100)
-        btnDeleteCategory.TabIndex = 9
+        btnDeleteCategory.TabIndex = 11
         btnDeleteCategory.Text = "Delete Category"
         btnDeleteCategory.UseVisualStyleBackColor = False
         ' 
@@ -151,7 +153,7 @@ Partial Class Form1
         btnAddIncomeExpense.Location = New Point(50, 675)
         btnAddIncomeExpense.Name = "btnAddIncomeExpense"
         btnAddIncomeExpense.Size = New Size(300, 100)
-        btnAddIncomeExpense.TabIndex = 10
+        btnAddIncomeExpense.TabIndex = 12
         btnAddIncomeExpense.Text = "Add Income/Expense"
         btnAddIncomeExpense.UseVisualStyleBackColor = False
         ' 
@@ -162,7 +164,7 @@ Partial Class Form1
         btnEditIncomeExpense.Location = New Point(375, 675)
         btnEditIncomeExpense.Name = "btnEditIncomeExpense"
         btnEditIncomeExpense.Size = New Size(300, 100)
-        btnEditIncomeExpense.TabIndex = 11
+        btnEditIncomeExpense.TabIndex = 13
         btnEditIncomeExpense.Text = "Edit Income/Expense"
         btnEditIncomeExpense.UseVisualStyleBackColor = False
         ' 
@@ -174,7 +176,7 @@ Partial Class Form1
         btnDeleteIncomeExpense.Location = New Point(700, 675)
         btnDeleteIncomeExpense.Name = "btnDeleteIncomeExpense"
         btnDeleteIncomeExpense.Size = New Size(300, 100)
-        btnDeleteIncomeExpense.TabIndex = 12
+        btnDeleteIncomeExpense.TabIndex = 14
         btnDeleteIncomeExpense.Text = "Delete Income/Expense"
         btnDeleteIncomeExpense.UseVisualStyleBackColor = False
         ' 
@@ -186,7 +188,7 @@ Partial Class Form1
         btnSetBudgetLimit.Location = New Point(50, 800)
         btnSetBudgetLimit.Name = "btnSetBudgetLimit"
         btnSetBudgetLimit.Size = New Size(300, 100)
-        btnSetBudgetLimit.TabIndex = 13
+        btnSetBudgetLimit.TabIndex = 15
         btnSetBudgetLimit.Text = "Set Budget Limit"
         btnSetBudgetLimit.UseVisualStyleBackColor = False
         ' 
@@ -197,7 +199,7 @@ Partial Class Form1
         btnViewRecords.Location = New Point(50, 925)
         btnViewRecords.Name = "btnViewRecords"
         btnViewRecords.Size = New Size(300, 100)
-        btnViewRecords.TabIndex = 14
+        btnViewRecords.TabIndex = 18
         btnViewRecords.Text = "View Records"
         btnViewRecords.UseVisualStyleBackColor = False
         ' 
@@ -208,7 +210,7 @@ Partial Class Form1
         btnViewReport.Location = New Point(375, 925)
         btnViewReport.Name = "btnViewReport"
         btnViewReport.Size = New Size(300, 100)
-        btnViewReport.TabIndex = 15
+        btnViewReport.TabIndex = 19
         btnViewReport.Text = "View Report"
         btnViewReport.UseVisualStyleBackColor = False
         ' 
@@ -242,7 +244,7 @@ Partial Class Form1
         btnClear.Location = New Point(700, 925)
         btnClear.Name = "btnClear"
         btnClear.Size = New Size(300, 100)
-        btnClear.TabIndex = 18
+        btnClear.TabIndex = 20
         btnClear.Text = "Clear"
         btnClear.UseVisualStyleBackColor = False
         ' 
@@ -251,10 +253,28 @@ Partial Class Form1
         lstDisplay.BackColor = Color.PaleGreen
         lstDisplay.FormattingEnabled = True
         lstDisplay.ItemHeight = 36
-        lstDisplay.Location = New Point(1050, 50)
+        lstDisplay.Location = New Point(1050, 75)
         lstDisplay.Name = "lstDisplay"
         lstDisplay.Size = New Size(875, 976)
-        lstDisplay.TabIndex = 19
+        lstDisplay.TabIndex = 21
+        ' 
+        ' lblExpense
+        ' 
+        lblExpense.AutoSize = True
+        lblExpense.Font = New Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblExpense.ForeColor = SystemColors.Control
+        lblExpense.Location = New Point(50, 350)
+        lblExpense.Name = "lblExpense"
+        lblExpense.Size = New Size(148, 37)
+        lblExpense.TabIndex = 3
+        lblExpense.Text = "Expense"
+        ' 
+        ' txtExpense
+        ' 
+        txtExpense.Location = New Point(222, 350)
+        txtExpense.Name = "txtExpense"
+        txtExpense.Size = New Size(778, 44)
+        txtExpense.TabIndex = 7
         ' 
         ' Form1
         ' 
@@ -262,6 +282,8 @@ Partial Class Form1
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.ForestGreen
         ClientSize = New Size(1974, 1129)
+        Controls.Add(txtExpense)
+        Controls.Add(lblExpense)
         Controls.Add(lstDisplay)
         Controls.Add(btnClear)
         Controls.Add(btnSearchRecords)
@@ -276,10 +298,10 @@ Partial Class Form1
         Controls.Add(btnEditCategory)
         Controls.Add(btnAddCategory)
         Controls.Add(txtSelectedRecord)
-        Controls.Add(txtIncomeExpense)
+        Controls.Add(txtIncome)
         Controls.Add(cbxCategory)
         Controls.Add(lblSelectedRecord)
-        Controls.Add(lblIncomeExpense)
+        Controls.Add(lblIncome)
         Controls.Add(lblCategory)
         Controls.Add(lblTitle)
         Font = New Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
@@ -292,10 +314,10 @@ Partial Class Form1
 
     Friend WithEvents lblTitle As Label
     Friend WithEvents lblCategory As Label
-    Friend WithEvents lblIncomeExpense As Label
+    Friend WithEvents lblIncome As Label
     Friend WithEvents lblSelectedRecord As Label
     Friend WithEvents cbxCategory As ComboBox
-    Friend WithEvents txtIncomeExpense As TextBox
+    Friend WithEvents txtIncome As TextBox
     Friend WithEvents txtSelectedRecord As TextBox
     Friend WithEvents btnAddCategory As Button
     Friend WithEvents btnEditCategory As Button
@@ -310,5 +332,7 @@ Partial Class Form1
     Friend WithEvents btnSearchRecords As Button
     Friend WithEvents btnClear As Button
     Friend WithEvents lstDisplay As ListBox
+    Friend WithEvents lblExpense As Label
+    Friend WithEvents txtExpense As TextBox
 
 End Class

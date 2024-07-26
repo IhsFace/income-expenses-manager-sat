@@ -209,19 +209,36 @@ Public Class Form1
     ' The btnAddIncomeExpense_Click event handler is executed when the Add Income/Expense button is clicked
     Private Sub btnAddIncomeExpense_Click(sender As Object, e As EventArgs) Handles btnAddIncomeExpense.Click
         ' Get the selected category and the amount entered by the user
-        Dim strIncomeExpense As String = LCase(txtIncomeExpense.Text)
+        Dim strIncome As String = LCase(txtIncome.Text)
+        Dim strExpense As String = LCase(txtExpense.Text)
+        Dim strIncomeExpense As String
+
+        ' Check if the user has entered an income or expense
+        Select Case True
+            Case String.IsNullOrWhiteSpace(strIncome) And String.IsNullOrWhiteSpace(strExpense)
+                ' Display a message box if the user has not entered an income or expense
+                MessageBox.Show("Please enter an income or expense!", "Add Income/Expense")
+                Return
+            Case Not String.IsNullOrWhiteSpace(strIncome) And Not String.IsNullOrWhiteSpace(strExpense)
+                ' Display a message box if the user has entered both an income and an expense
+                MessageBox.Show("Please enter either an income or an expense!", "Add Income/Expense")
+                Return
+            Case String.IsNullOrWhiteSpace(strExpense) And Not String.IsNullOrWhiteSpace(strIncome)
+                ' Set the amount entered by the user to the income/expense variable if the user has entered an income
+                strIncomeExpense = strIncome
+            Case String.IsNullOrWhiteSpace(strIncome) And Not String.IsNullOrWhiteSpace(strExpense)
+                ' Set the amount entered by the user to the income/expense variable if the user has entered an expense
+                strIncomeExpense = "-" & strExpense
+            Case Else
+                ' Display a message box if an error has occurred
+                MessageBox.Show("An error has occurred!", "Add Income/Expense")
+                Return
+        End Select
 
         ' Check if the user has selected a category
         If cbxCategory.SelectedIndex = -1 Or cbxCategory.SelectedIndex = 0 Then
             ' Display a message box if the user has not selected a category
             MessageBox.Show("Please select a category!", "Add Income/Expense")
-            Return
-        End If
-
-        ' Check if the user has entered an amount
-        If String.IsNullOrWhiteSpace(strIncomeExpense) Then
-            ' Display a message box if the user has not entered an amount
-            MessageBox.Show("Please enter an amount!", "Edit Income/Expense")
             Return
         End If
 
@@ -284,7 +301,7 @@ Public Class Form1
 
         ' Create the Amount node and set the inner text of the Amount node to the amount entered by the user, then append it to the Record node
         Dim amountNode As XmlNode = xmlDoc.CreateElement("amount")
-        amountNode.InnerText = Val(txtIncomeExpense.Text)
+        amountNode.InnerText = Val(strIncomeExpense)
         recordNode.AppendChild(amountNode)
 
         ' Create the CreatedAt node and set the inner text of the CreatedAt node to the current date and time, then append it to the Record node
@@ -323,14 +340,31 @@ Public Class Form1
     ' The btnEditIncomeExpense_Click event handler is executed when the Edit Income/Expense button is clicked
     Private Sub btnEditIncomeExpense_Click(sender As Object, e As EventArgs) Handles btnEditIncomeExpense.Click
         ' Get the amount entered by the user and the selected record
-        Dim strIncomeExpense As String = LCase(txtIncomeExpense.Text)
+        Dim strIncome As String = LCase(txtIncome.Text)
+        Dim strExpense As String = LCase(txtExpense.Text)
+        Dim strIncomeExpense As String
 
-        ' Check if the user has entered an amount
-        If String.IsNullOrWhiteSpace(strIncomeExpense) Then
-            ' Display a message box if the user has not entered an amount
-            MessageBox.Show("Please enter an amount!", "Edit Income/Expense")
-            Return
-        End If
+        ' Check if the user has entered an income or expense
+        Select Case True
+            Case String.IsNullOrWhiteSpace(strIncome) And String.IsNullOrWhiteSpace(strExpense)
+                ' Display a message box if the user has not entered an income or expense
+                MessageBox.Show("Please enter an income or expense!", "Edit Income/Expense")
+                Return
+            Case Not String.IsNullOrWhiteSpace(strIncome) And Not String.IsNullOrWhiteSpace(strExpense)
+                ' Display a message box if the user has entered both an income and an expense
+                MessageBox.Show("Please enter either an income or an expense!", "Edit Income/Expense")
+                Return
+            Case String.IsNullOrWhiteSpace(strExpense) And Not String.IsNullOrWhiteSpace(strIncome)
+                ' Set the amount entered by the user to the income/expense variable if the user has entered an income
+                strIncomeExpense = strIncome
+            Case String.IsNullOrWhiteSpace(strIncome) And Not String.IsNullOrWhiteSpace(strExpense)
+                ' Set the amount entered by the user to the income/expense variable if the user has entered an expense
+                strIncomeExpense = "-" & strExpense
+            Case Else
+                ' Display a message box if an error has occurred
+                MessageBox.Show("An error has occurred!", "Edit Income/Expense")
+                Return
+        End Select
 
         ' Check if the amount entered by the user is numeric
         If Not IsNumeric(strIncomeExpense) Then
@@ -428,7 +462,7 @@ Public Class Form1
         ' Check if the user has selected a record
         If String.IsNullOrWhiteSpace(strSelectedRecord) Then
             ' Display a message box if the user has not selected a record
-            MessageBox.Show("Please select a record!", "Edit Income/Expense")
+            MessageBox.Show("Please select a record!", "Delete Income/Expense")
             Return
         End If
 
@@ -590,9 +624,9 @@ Public Class Form1
         Dim intUpperBound As Integer = UBound(intNbrsArray)
 
         ' Declare the integer variable to store the main loop counter for array processing
-        Dim i As Integer = 0
+        Dim intMainLoopCounter As Integer = 0
         ' Declare the integer variable to store the index counter value to shuffle along 1 index step
-        Dim j As Integer = 0
+        Dim intIndexCounter As Integer = 0
 
         ' Declare the integer variable to store the index to move the minimum value to
         Dim intMinValueIndex As Integer
@@ -602,25 +636,25 @@ Public Class Form1
         Dim intSwapValue As Integer
 
         ' Loop through the integer array
-        For i = intLowerBound To intUpperBound
+        For intMainLoopCounter = intLowerBound To intUpperBound
             ' Set the minimum value index to the current index
-            intMinValueIndex = i
+            intMinValueIndex = intMainLoopCounter
             ' Reset the saved swap values from the last pass of the array
             intSwapValue = 0
             intSwapValueIndex = 0
 
             ' Loop through the integer array starting from the next index
-            For j = i + 1 To intUpperBound
+            For intIndexCounter = intMainLoopCounter + 1 To intUpperBound
                 ' Search and find the lowest value remaining in the array for this sort pass of the array
-                If intNbrsArray(j) < intNbrsArray(intMinValueIndex) Then
+                If intNbrsArray(intIndexCounter) < intNbrsArray(intMinValueIndex) Then
                     ' First check for first time finding a smaller value, then check if smallest so far
                     If intSwapValue = 0 Then
-                        intSwapValue = intNbrsArray(j)
-                        intSwapValueIndex = j
+                        intSwapValue = intNbrsArray(intIndexCounter)
+                        intSwapValueIndex = intIndexCounter
                     Else
-                        If intNbrsArray(j) < intSwapValue Then
-                            intSwapValue = intNbrsArray(j)
-                            intSwapValueIndex = j
+                        If intNbrsArray(intIndexCounter) < intSwapValue Then
+                            intSwapValue = intNbrsArray(intIndexCounter)
+                            intSwapValueIndex = intIndexCounter
                         End If
                     End If
                 End If
@@ -643,11 +677,11 @@ Public Class Form1
         lstDisplay.Items.Clear()
 
         ' Loop through the integer array
-        For c = 0 To intNbrsArray.Length - 1
+        For intArrayIndex = 0 To intNbrsArray.Length - 1
             ' Loop through the Record nodes
             For Each recordNode As XmlNode In recordNodes
                 ' Check if the selected node based on the sort option is equal to the current index of the integer array
-                If recordNode.SelectSingleNode(strSortOption).InnerText = intNbrsArray(c) Then
+                If recordNode.SelectSingleNode(strSortOption).InnerText = intNbrsArray(intArrayIndex) Then
                     ' Add the record to the list box
                     lstDisplay.Items.Add(recordNode.SelectSingleNode("id").InnerText & ": $" & recordNode.SelectSingleNode("amount").InnerText)
                 End If
@@ -763,7 +797,7 @@ Public Class Form1
     ' The btnViewReport_Click event handler is executed when the View Report button is clicked
     Private Sub btnViewReport_Click(sender As Object, e As EventArgs) Handles btnViewReport.Click
         ' Display an input box to get the year for the financial report
-        Dim strTimePeriod As String = LCase(InputBox("Enter the year for the financial report (e.g. All, 2024):", "Financial Report", "2024"))
+        Dim strTimePeriod As String = LCase(InputBox("Enter the year for the financial report (e.g. All, 2024):", "View Report", "2024"))
 
         ' Check if the user has entered a year
         If String.IsNullOrWhiteSpace(strTimePeriod) Then
@@ -794,7 +828,8 @@ Public Class Form1
     Private Sub btnClear_Click(sender As Object, e As EventArgs) Handles btnClear.Click
         ' Clear the combo box, text boxes and list box
         cbxCategory.SelectedIndex = 0
-        txtIncomeExpense.Clear()
+        txtIncome.Clear()
+        txtExpense.Clear()
         txtSelectedRecord.Clear()
         lstDisplay.Items.Clear()
         ' Set the focus to the combo box
