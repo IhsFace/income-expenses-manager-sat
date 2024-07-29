@@ -44,6 +44,8 @@ Partial Class Form1
         lstDisplay = New ListBox()
         lblExpense = New Label()
         txtExpense = New TextBox()
+        lblName = New Label()
+        txtName = New TextBox()
         SuspendLayout()
         ' 
         ' lblTitle
@@ -51,7 +53,7 @@ Partial Class Form1
         lblTitle.AutoSize = True
         lblTitle.Font = New Font("Arial Black", 16.125F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblTitle.ForeColor = SystemColors.Control
-        lblTitle.Location = New Point(50, 75)
+        lblTitle.Location = New Point(50, 50)
         lblTitle.Name = "lblTitle"
         lblTitle.Size = New Size(744, 60)
         lblTitle.TabIndex = 0
@@ -62,7 +64,7 @@ Partial Class Form1
         lblCategory.AutoSize = True
         lblCategory.Font = New Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblCategory.ForeColor = SystemColors.Control
-        lblCategory.Location = New Point(50, 200)
+        lblCategory.Location = New Point(50, 150)
         lblCategory.Name = "lblCategory"
         lblCategory.Size = New Size(155, 37)
         lblCategory.TabIndex = 1
@@ -73,10 +75,10 @@ Partial Class Form1
         lblIncome.AutoSize = True
         lblIncome.Font = New Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblIncome.ForeColor = SystemColors.Control
-        lblIncome.Location = New Point(50, 275)
+        lblIncome.Location = New Point(50, 300)
         lblIncome.Name = "lblIncome"
         lblIncome.Size = New Size(127, 37)
-        lblIncome.TabIndex = 2
+        lblIncome.TabIndex = 3
         lblIncome.Text = "Income"
         ' 
         ' lblSelectedRecord
@@ -84,33 +86,33 @@ Partial Class Form1
         lblSelectedRecord.AutoSize = True
         lblSelectedRecord.Font = New Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblSelectedRecord.ForeColor = SystemColors.Control
-        lblSelectedRecord.Location = New Point(50, 425)
+        lblSelectedRecord.Location = New Point(50, 450)
         lblSelectedRecord.Name = "lblSelectedRecord"
         lblSelectedRecord.Size = New Size(166, 37)
-        lblSelectedRecord.TabIndex = 4
+        lblSelectedRecord.TabIndex = 5
         lblSelectedRecord.Text = "Record ID"
         ' 
         ' cbxCategory
         ' 
         cbxCategory.FormattingEnabled = True
-        cbxCategory.Location = New Point(222, 200)
+        cbxCategory.Location = New Point(222, 150)
         cbxCategory.Name = "cbxCategory"
         cbxCategory.Size = New Size(778, 44)
-        cbxCategory.TabIndex = 5
+        cbxCategory.TabIndex = 6
         ' 
         ' txtIncome
         ' 
-        txtIncome.Location = New Point(222, 273)
+        txtIncome.Location = New Point(222, 300)
         txtIncome.Name = "txtIncome"
         txtIncome.Size = New Size(778, 44)
-        txtIncome.TabIndex = 6
+        txtIncome.TabIndex = 8
         ' 
         ' txtSelectedRecord
         ' 
-        txtSelectedRecord.Location = New Point(222, 425)
+        txtSelectedRecord.Location = New Point(222, 450)
         txtSelectedRecord.Name = "txtSelectedRecord"
         txtSelectedRecord.Size = New Size(778, 44)
-        txtSelectedRecord.TabIndex = 8
+        txtSelectedRecord.TabIndex = 10
         ' 
         ' btnAddCategory
         ' 
@@ -119,7 +121,7 @@ Partial Class Form1
         btnAddCategory.Location = New Point(50, 550)
         btnAddCategory.Name = "btnAddCategory"
         btnAddCategory.Size = New Size(300, 100)
-        btnAddCategory.TabIndex = 9
+        btnAddCategory.TabIndex = 11
         btnAddCategory.Text = "Add Category"
         btnAddCategory.UseVisualStyleBackColor = False
         ' 
@@ -130,7 +132,7 @@ Partial Class Form1
         btnEditCategory.Location = New Point(375, 550)
         btnEditCategory.Name = "btnEditCategory"
         btnEditCategory.Size = New Size(300, 100)
-        btnEditCategory.TabIndex = 10
+        btnEditCategory.TabIndex = 12
         btnEditCategory.Text = "Edit Category"
         btnEditCategory.UseVisualStyleBackColor = False
         ' 
@@ -142,7 +144,7 @@ Partial Class Form1
         btnDeleteCategory.Location = New Point(700, 550)
         btnDeleteCategory.Name = "btnDeleteCategory"
         btnDeleteCategory.Size = New Size(300, 100)
-        btnDeleteCategory.TabIndex = 11
+        btnDeleteCategory.TabIndex = 13
         btnDeleteCategory.Text = "Delete Category"
         btnDeleteCategory.UseVisualStyleBackColor = False
         ' 
@@ -153,7 +155,7 @@ Partial Class Form1
         btnAddIncomeExpense.Location = New Point(50, 675)
         btnAddIncomeExpense.Name = "btnAddIncomeExpense"
         btnAddIncomeExpense.Size = New Size(300, 100)
-        btnAddIncomeExpense.TabIndex = 12
+        btnAddIncomeExpense.TabIndex = 14
         btnAddIncomeExpense.Text = "Add Income/Expense"
         btnAddIncomeExpense.UseVisualStyleBackColor = False
         ' 
@@ -164,7 +166,7 @@ Partial Class Form1
         btnEditIncomeExpense.Location = New Point(375, 675)
         btnEditIncomeExpense.Name = "btnEditIncomeExpense"
         btnEditIncomeExpense.Size = New Size(300, 100)
-        btnEditIncomeExpense.TabIndex = 13
+        btnEditIncomeExpense.TabIndex = 15
         btnEditIncomeExpense.Text = "Edit Income/Expense"
         btnEditIncomeExpense.UseVisualStyleBackColor = False
         ' 
@@ -176,7 +178,7 @@ Partial Class Form1
         btnDeleteIncomeExpense.Location = New Point(700, 675)
         btnDeleteIncomeExpense.Name = "btnDeleteIncomeExpense"
         btnDeleteIncomeExpense.Size = New Size(300, 100)
-        btnDeleteIncomeExpense.TabIndex = 14
+        btnDeleteIncomeExpense.TabIndex = 16
         btnDeleteIncomeExpense.Text = "Delete Income/Expense"
         btnDeleteIncomeExpense.UseVisualStyleBackColor = False
         ' 
@@ -188,7 +190,7 @@ Partial Class Form1
         btnSetBudgetLimit.Location = New Point(50, 800)
         btnSetBudgetLimit.Name = "btnSetBudgetLimit"
         btnSetBudgetLimit.Size = New Size(300, 100)
-        btnSetBudgetLimit.TabIndex = 15
+        btnSetBudgetLimit.TabIndex = 17
         btnSetBudgetLimit.Text = "Set Budget Limit"
         btnSetBudgetLimit.UseVisualStyleBackColor = False
         ' 
@@ -199,7 +201,7 @@ Partial Class Form1
         btnViewRecords.Location = New Point(50, 925)
         btnViewRecords.Name = "btnViewRecords"
         btnViewRecords.Size = New Size(300, 100)
-        btnViewRecords.TabIndex = 18
+        btnViewRecords.TabIndex = 20
         btnViewRecords.Text = "View Records"
         btnViewRecords.UseVisualStyleBackColor = False
         ' 
@@ -210,7 +212,7 @@ Partial Class Form1
         btnViewReport.Location = New Point(375, 925)
         btnViewReport.Name = "btnViewReport"
         btnViewReport.Size = New Size(300, 100)
-        btnViewReport.TabIndex = 19
+        btnViewReport.TabIndex = 21
         btnViewReport.Text = "View Report"
         btnViewReport.UseVisualStyleBackColor = False
         ' 
@@ -221,7 +223,7 @@ Partial Class Form1
         btnSortRecords.Location = New Point(375, 800)
         btnSortRecords.Name = "btnSortRecords"
         btnSortRecords.Size = New Size(300, 100)
-        btnSortRecords.TabIndex = 16
+        btnSortRecords.TabIndex = 18
         btnSortRecords.Text = "Sort Records"
         btnSortRecords.UseVisualStyleBackColor = False
         ' 
@@ -233,7 +235,7 @@ Partial Class Form1
         btnSearchRecords.Location = New Point(700, 800)
         btnSearchRecords.Name = "btnSearchRecords"
         btnSearchRecords.Size = New Size(300, 100)
-        btnSearchRecords.TabIndex = 17
+        btnSearchRecords.TabIndex = 19
         btnSearchRecords.Text = "Search Records"
         btnSearchRecords.UseVisualStyleBackColor = False
         ' 
@@ -244,7 +246,7 @@ Partial Class Form1
         btnClear.Location = New Point(700, 925)
         btnClear.Name = "btnClear"
         btnClear.Size = New Size(300, 100)
-        btnClear.TabIndex = 20
+        btnClear.TabIndex = 22
         btnClear.Text = "Clear"
         btnClear.UseVisualStyleBackColor = False
         ' 
@@ -253,28 +255,46 @@ Partial Class Form1
         lstDisplay.BackColor = Color.PaleGreen
         lstDisplay.FormattingEnabled = True
         lstDisplay.ItemHeight = 36
-        lstDisplay.Location = New Point(1050, 75)
+        lstDisplay.Location = New Point(1050, 50)
         lstDisplay.Name = "lstDisplay"
         lstDisplay.Size = New Size(875, 976)
-        lstDisplay.TabIndex = 21
+        lstDisplay.TabIndex = 23
         ' 
         ' lblExpense
         ' 
         lblExpense.AutoSize = True
         lblExpense.Font = New Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblExpense.ForeColor = SystemColors.Control
-        lblExpense.Location = New Point(50, 350)
+        lblExpense.Location = New Point(50, 375)
         lblExpense.Name = "lblExpense"
         lblExpense.Size = New Size(148, 37)
-        lblExpense.TabIndex = 3
+        lblExpense.TabIndex = 4
         lblExpense.Text = "Expense"
         ' 
         ' txtExpense
         ' 
-        txtExpense.Location = New Point(222, 350)
+        txtExpense.Location = New Point(222, 375)
         txtExpense.Name = "txtExpense"
         txtExpense.Size = New Size(778, 44)
-        txtExpense.TabIndex = 7
+        txtExpense.TabIndex = 9
+        ' 
+        ' lblName
+        ' 
+        lblName.AutoSize = True
+        lblName.Font = New Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblName.ForeColor = SystemColors.Control
+        lblName.Location = New Point(50, 225)
+        lblName.Name = "lblName"
+        lblName.Size = New Size(103, 37)
+        lblName.TabIndex = 2
+        lblName.Text = "Name"
+        ' 
+        ' txtName
+        ' 
+        txtName.Location = New Point(222, 225)
+        txtName.Name = "txtName"
+        txtName.Size = New Size(778, 44)
+        txtName.TabIndex = 7
         ' 
         ' Form1
         ' 
@@ -282,6 +302,8 @@ Partial Class Form1
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.ForestGreen
         ClientSize = New Size(1974, 1129)
+        Controls.Add(txtName)
+        Controls.Add(lblName)
         Controls.Add(txtExpense)
         Controls.Add(lblExpense)
         Controls.Add(lstDisplay)
@@ -334,5 +356,7 @@ Partial Class Form1
     Friend WithEvents lstDisplay As ListBox
     Friend WithEvents lblExpense As Label
     Friend WithEvents txtExpense As TextBox
+    Friend WithEvents lblName As Label
+    Friend WithEvents txtName As TextBox
 
 End Class

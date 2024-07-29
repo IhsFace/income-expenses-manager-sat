@@ -7,24 +7,27 @@
     <name>Category</name>
   </category>
   <record>
-    <id>0</id>
-    <category>Category</category>
-    <amount>100</amount>
-    <createdAt>24/07/2024 20:54:14</createdAt>
-    <updatedAt>24/07/2024 20:54:14</updatedAt>
-  </record>
-  <record>
     <id>1</id>
+    <createdAt>29/07/2024 23:16:23</createdAt>
+    <updatedAt>29/07/2024 23:16:23</updatedAt>
     <category>Category</category>
-    <amount>200</amount>
-    <createdAt>24/07/2024 20:54:21</createdAt>
-    <updatedAt>24/07/2024 20:54:21</updatedAt>
+    <name>First</name>
+    <amount>100</amount>
   </record>
   <record>
     <id>2</id>
+    <createdAt>29/07/2024 23:16:29</createdAt>
+    <updatedAt>29/07/2024 23:16:29</updatedAt>
     <category>Category</category>
-    <createdAt>24/07/2024 20:54:25</createdAt>
+    <name>Second</name>
+    <amount>200</amount>
+  </record>
+  <record>
+    <id>3</id>
+    <createdAt>29/07/2024 23:16:34</createdAt>
+    <updatedAt>29/07/2024 23:16:34</updatedAt>
+    <category>Category</category>
+    <name>Third</name>
     <amount>300</amount>
-    <updatedAt>29/07/2024 22:05:24</updatedAt>
   </record>
 </records>
