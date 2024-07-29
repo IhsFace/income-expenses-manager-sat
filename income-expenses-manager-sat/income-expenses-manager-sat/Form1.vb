@@ -170,39 +170,39 @@ Public Class Form1
             Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//record")
             Dim rootNode As XmlNode = xmlDoc.SelectSingleNode("records")
 
-            ' Loop through the Record nodes
-            For Each recordNode As XmlNode In recordNodes
-                ' Get the Category node of the current Record node
-                Dim selectedCategoryNode As XmlNode = recordNode.SelectSingleNode("category")
+            ' Loop through the Category nodes
+            For Each categoryNode As XmlNode In categoryNodes
+                ' Get the Name node of the current Category node
+                Dim nameNode As XmlNode = categoryNode.SelectSingleNode("name")
 
-                ' Check if the Category node exists and its inner text is equal to the selected category
-                If selectedCategoryNode IsNot Nothing And selectedCategoryNode.InnerText = cbxCategory.SelectedItem Then
-                    ' Remove the Record node
-                    rootNode.RemoveChild(recordNode)
+                ' Check if the Name node exists and its inner text is equal to the selected category
+                If nameNode IsNot Nothing And nameNode.InnerText = cbxCategory.SelectedItem Then
+                    ' Remove the Category node
+                    rootNode.RemoveChild(categoryNode)
 
-                    ' Loop through the Category nodes
-                    For Each categoryNode As XmlNode In categoryNodes
-                        ' Get the Name node of the current Category node
-                        Dim nameNode As XmlNode = categoryNode.SelectSingleNode("name")
+                    ' Loop through the Record nodes
+                    For Each recordNode As XmlNode In recordNodes
+                        ' Get the Category node of the current Record node
+                        Dim selectedCategoryNode As XmlNode = recordNode.SelectSingleNode("category")
 
-                        ' Check if the Name node exists and its inner text is equal to the selected category
-                        If nameNode IsNot Nothing And nameNode.InnerText = cbxCategory.SelectedItem Then
-                            ' Remove the Category node
-                            rootNode.RemoveChild(categoryNode)
+                        ' Check if the Category node exists and its inner text is equal to the selected category
+                        If selectedCategoryNode IsNot Nothing And selectedCategoryNode.InnerText = cbxCategory.SelectedItem Then
+                            ' Remove the Record node
+                            rootNode.RemoveChild(recordNode)
                         End If
                     Next
-
-                    ' Save the XML file
-                    xmlDoc.Save(xmlFilePath)
-
-                    ' Populate the combo box and display the financial report
-                    PopulateComboBox()
-                    LoadFinancialReport("all")
-
-                    ' Display a message box to confirm that the category has been deleted
-                    MessageBox.Show("Category deleted successfully!", "Delete Category")
                 End If
             Next
+
+            ' Save the XML file
+            xmlDoc.Save(xmlFilePath)
+
+            ' Populate the combo box and display the financial report
+            PopulateComboBox()
+            LoadFinancialReport("all")
+
+            ' Display a message box to confirm that the category has been deleted
+            MessageBox.Show("Category deleted successfully!", "Delete Category")
         End If
     End Sub
 
