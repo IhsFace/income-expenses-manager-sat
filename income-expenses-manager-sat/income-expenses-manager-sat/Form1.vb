@@ -105,46 +105,56 @@ Public Class Form1
             ' Get the name node of the current category node
             Dim nameNode As XmlNode = categoryNode.SelectSingleNode("name")
 
-            ' Check if the name node exists and its inner text is equal to the selected category
-            If nameNode IsNot Nothing And nameNode.InnerText = cbxCategory.SelectedItem Then
-                ' Remove the name node
-                categoryNode.RemoveChild(nameNode)
+            ' Check if the inner text of the name node is equal to the selected category
+            If nameNode.InnerText = cbxCategory.SelectedItem Then
+                Try
+                    ' Remove the name node
+                    categoryNode.RemoveChild(nameNode)
 
-                ' Create a new name node and set the inner text of the name node to the name entered by the user and append it to the category node
-                Dim newNameNode As XmlNode = xmlDoc.CreateElement("name")
+                    ' Create a new name node and set the inner text of the name node to the name entered by the user and append it to the category node
+                    Dim newNameNode As XmlNode = xmlDoc.CreateElement("name")
 
-                newNameNode.InnerText = strName
-                categoryNode.AppendChild(newNameNode)
+                    newNameNode.InnerText = strName
+                    categoryNode.AppendChild(newNameNode)
 
-                ' Get the record nodes and loop through them
-                Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//record")
+                    ' Get the record nodes and loop through them
+                    Dim recordNodes As XmlNodeList = xmlDoc.SelectNodes("//record")
 
-                For Each recordNode As XmlNode In recordNodes
-                    ' Get the category node of the current record node
-                    Dim selectedCategoryNode As XmlNode = recordNode.SelectSingleNode("category")
+                    For Each recordNode As XmlNode In recordNodes
+                        ' Get the category node of the current record node
+                        Dim selectedCategoryNode As XmlNode = recordNode.SelectSingleNode("category")
 
-                    ' Check if the category node exists and its inner text is equal to the selected category
-                    If selectedCategoryNode IsNot Nothing And selectedCategoryNode.InnerText = cbxCategory.SelectedItem Then
-                        ' Remove the category node
-                        recordNode.RemoveChild(selectedCategoryNode)
+                        ' Check if the inner text of the category node is equal to the selected category
+                        If selectedCategoryNode.InnerText = cbxCategory.SelectedItem Then
+                            Try
+                                ' Remove the category node
+                                recordNode.RemoveChild(selectedCategoryNode)
 
-                        ' Create a new category node and set the inner text of the category node to the name entered by the user and append it to the record node
-                        Dim newCategoryNode As XmlNode = xmlDoc.CreateElement("category")
+                                ' Create a new category node and set the inner text of the category node to the name entered by the user and append it to the record node
+                                Dim newCategoryNode As XmlNode = xmlDoc.CreateElement("category")
 
-                        newCategoryNode.InnerText = strName
-                        recordNode.AppendChild(newCategoryNode)
-                    End If
-                Next
+                                newCategoryNode.InnerText = strName
+                                recordNode.AppendChild(newCategoryNode)
+                            Catch ex As System.NullReferenceException
+                                ' Display a message box if the category node was not found in the selected record's XML record
+                                MessageBox.Show("The category node was not found in the selected record's XML record. Please delete your XML file or manually add in a category node.", "Edit Category")
+                            End Try
+                        End If
+                    Next
 
-                ' Save the XML file
-                xmlDoc.Save(xmlFilePath)
+                    ' Save the XML file
+                    xmlDoc.Save(xmlFilePath)
 
-                ' Populate the combo box and display the financial report
-                PopulateComboBox()
-                LoadFinancialReport("all")
+                    ' Populate the combo box and display the financial report
+                    PopulateComboBox()
+                    LoadFinancialReport("all")
 
-                ' Display a message box to confirm that the category has been edited
-                MessageBox.Show("Category edited successfully!", "Edit Category")
+                    ' Display a message box to confirm that the category has been edited
+                    MessageBox.Show("Category edited successfully!", "Edit Category")
+                Catch ex As System.NullReferenceException
+                    ' Display a message box if the name node was not found in the selected category's XML record
+                    MessageBox.Show("The name node was not found in the selected category's XML record. Please delete your XML file or manually add in a name node.", "Edit Category")
+                End Try
             End If
         Next
     End Sub
@@ -177,22 +187,32 @@ Public Class Form1
                 ' Get the name node of the current category node
                 Dim nameNode As XmlNode = categoryNode.SelectSingleNode("name")
 
-                ' Check if the name node exists and its inner text is equal to the selected category
-                If nameNode IsNot Nothing And nameNode.InnerText = cbxCategory.SelectedItem Then
-                    ' Remove the category node
-                    rootNode.RemoveChild(categoryNode)
+                ' Check if the inner text of the name node is equal to the selected category
+                If nameNode.InnerText = cbxCategory.SelectedItem Then
+                    Try
+                        ' Remove the category node
+                        rootNode.RemoveChild(categoryNode)
 
-                    ' Loop through the record nodes
-                    For Each recordNode As XmlNode In recordNodes
-                        ' Get the category node of the current record node
-                        Dim selectedCategoryNode As XmlNode = recordNode.SelectSingleNode("category")
+                        ' Loop through the record nodes
+                        For Each recordNode As XmlNode In recordNodes
+                            ' Get the category node of the current record node
+                            Dim selectedCategoryNode As XmlNode = recordNode.SelectSingleNode("category")
 
-                        ' Check if the category node exists and its inner text is equal to the selected category
-                        If selectedCategoryNode IsNot Nothing And selectedCategoryNode.InnerText = cbxCategory.SelectedItem Then
-                            ' Remove the record node
-                            rootNode.RemoveChild(recordNode)
-                        End If
-                    Next
+                            ' Check if the inner text of the category node is equal to the selected category
+                            If selectedCategoryNode.InnerText = cbxCategory.SelectedItem Then
+                                Try
+                                    ' Remove the record node
+                                    rootNode.RemoveChild(recordNode)
+                                Catch ex As System.NullReferenceException
+                                    ' Display a message box if the category node was not found in the selected record's XML record
+                                    MessageBox.Show("The category node was not found in the selected record's XML record. Please delete your XML file or manually add in a category node.", "Delete Category")
+                                End Try
+                            End If
+                        Next
+                    Catch ex As System.NullReferenceException
+                        ' Display a message box if the category node was not found in the selected record's XML record
+                        MessageBox.Show("The category node was not found in the selected record's XML record. Please delete your XML file or manually add in a category node.", "Delete Category")
+                    End Try
                 End If
             Next
 
@@ -286,10 +306,15 @@ Public Class Form1
             ' Get the id node of the current record node
             Dim selectedIdNode As XmlNode = selectedNode.SelectSingleNode("id")
 
-            ' Check if the id node exists and its value is greater than the maximum ID
-            If selectedIdNode IsNot Nothing And Val(selectedIdNode.InnerText) > intMaxId Then
-                ' Set the maximum ID to the value of the id node
-                intMaxId = Val(selectedNode.SelectSingleNode("id").InnerText)
+            ' Check if the value of the id node is greater than the maximum ID
+            If Val(selectedIdNode.InnerText) > intMaxId Then
+                Try
+                    ' Set the maximum ID to the value of the id node
+                    intMaxId = Val(selectedNode.SelectSingleNode("id").InnerText)
+                Catch ex As System.NullReferenceException
+                    ' Display a message box if the id node was not found in the selected record's XML record
+                    MessageBox.Show("The id node was not found in the selected record's XML record. Please delete your XML file or manually add in an id node.", "Add Income/Expense")
+                End Try
             End If
         Next
 
@@ -380,9 +405,9 @@ Public Class Form1
                 Dim nameNode As XmlNode = recordNode.SelectSingleNode("name")
                 Dim amountNode As XmlNode = recordNode.SelectSingleNode("amount")
 
-                If idNode IsNot Nothing And idNode.InnerText = Val(txtSelectedRecord.Text) Then
-                    ' Check if the category, name and amount nodes exist
-                    If categoryNode IsNot Nothing And nameNode IsNot Nothing And amountNode IsNot Nothing Then
+                ' Check if the inner text of the id node is equal to the selected record
+                If idNode.InnerText = Val(txtSelectedRecord.Text) Then
+                    Try
                         ' Display an input box to confirm the editing of the record
                         Dim strConfirm As String = LCase(InputBox("Are you sure you want to edit Record " & txtSelectedRecord.Text & "? (y or n):", "Edit Income/Expense", "n"))
 
@@ -423,7 +448,10 @@ Public Class Form1
                             cbxCategory.Focus()
                             Return
                         End If
-                    End If
+                    Catch ex As System.NullReferenceException
+                        ' Display a message box if the id, category, name or amount node was not found in the selected record's XML record
+                        MessageBox.Show("The id, category, name or amount node was not found in the selected record's XML record. Please delete your XML file or manually add in an id, category, name or amount node.", "Edit Income/Expense")
+                    End Try
                 End If
             Next
         End If
@@ -499,10 +527,9 @@ Public Class Form1
                 Dim nameNode As XmlNode = recordNode.SelectSingleNode("name")
                 Dim amountNode As XmlNode = recordNode.SelectSingleNode("amount")
 
-                ' Check if the id node exists and its inner text is equal to the selected record
-                If idNode IsNot Nothing And idNode.InnerText = Val(txtSelectedRecord.Text) Then
-                    ' Check if the category, name, amount and updatedAt nodes exist
-                    If categoryNode IsNot Nothing And nameNode IsNot Nothing And amountNode IsNot Nothing And updatedAtNode IsNot Nothing Then
+                ' Check if the inner text of the id node is equal to the selected record
+                If idNode.InnerText = Val(txtSelectedRecord.Text) Then
+                    Try
                         ' Remove the updatedAt node
                         recordNode.RemoveChild(recordNode.SelectSingleNode("updatedAt"))
 
@@ -570,7 +597,10 @@ Public Class Form1
 
                         ' Display a message box to confirm that the income/expense has been edited
                         MessageBox.Show("Income/Expense edited successfully!", "Edit Income/Expense")
-                    End If
+                    Catch ex As System.NullReferenceException
+                        ' Display a message box if the id, category, name, amount or updatedAt node was not found in the selected record's XML record
+                        MessageBox.Show("The id, category, name, amount or updatedAt node was not found in the selected record's XML record. Please delete your XML file or manually add in an id, category, name, amount or updatedAt node.", "Edit Income/Expense")
+                    End Try
                 End If
             Next
         End If
@@ -621,28 +651,33 @@ Public Class Form1
                 ' Get the id node of the current Record node
                 Dim idNode As XmlNode = recordNode.SelectSingleNode("id")
 
-                ' Check if the id node exists and its inner text is equal to the selected record
-                If idNode IsNot Nothing And idNode.InnerText = Val(strSelectedRecord) Then
-                    ' Remove the Record node
-                    rootNode.RemoveChild(recordNode)
+                ' Check if the inner text of the id node is equal to the selected record
+                If idNode.InnerText = Val(strSelectedRecord) Then
+                    Try
+                        ' Remove the Record node
+                        rootNode.RemoveChild(recordNode)
 
-                    ' Save the XML file
-                    xmlDoc.Save(xmlFilePath)
+                        ' Save the XML file
+                        xmlDoc.Save(xmlFilePath)
 
-                    ' Load the financial report for all time periods and set it equal to the net income
-                    dblNetIncome = LoadFinancialReport("all")
+                        ' Load the financial report for all time periods and set it equal to the net income
+                        dblNetIncome = LoadFinancialReport("all")
 
-                    ' Check if the budget limit has been exceeded and the net income is greater than the budget limit and the budget limit is not 0
-                    If Not blnExceededLimit And dblNetIncome > dblBudgetLimit And dblBudgetLimit <> 0 Then
-                        ' Display a message box if the budget limit has been exceeded
-                        MessageBox.Show("Budget limit exceeded!", "Delete Income/Expense")
-                    ElseIf blnExceededLimit And dblNetIncome <= dblBudgetLimit And dblBudgetLimit <> 0 Then
-                        ' Display a message box if the budget limit is no longer exceeded
-                        MessageBox.Show("Budget limit no longer exceeded!", "Delete Income/Expense")
-                    End If
+                        ' Check if the budget limit has been exceeded and the net income is greater than the budget limit and the budget limit is not 0
+                        If Not blnExceededLimit And dblNetIncome > dblBudgetLimit And dblBudgetLimit <> 0 Then
+                            ' Display a message box if the budget limit has been exceeded
+                            MessageBox.Show("Budget limit exceeded!", "Delete Income/Expense")
+                        ElseIf blnExceededLimit And dblNetIncome <= dblBudgetLimit And dblBudgetLimit <> 0 Then
+                            ' Display a message box if the budget limit is no longer exceeded
+                            MessageBox.Show("Budget limit no longer exceeded!", "Delete Income/Expense")
+                        End If
 
-                    ' Display a message box to confirm that the income/expense has been deleted
-                    MessageBox.Show("Income/Expense deleted successfully!", "Delete Income/Expense")
+                        ' Display a message box to confirm that the income/expense has been deleted
+                        MessageBox.Show("Income/Expense deleted successfully!", "Delete Income/Expense")
+                    Catch ex As System.NullReferenceException
+                        ' Display a message box if the id node was not found in the selected record's XML record
+                        MessageBox.Show("The id node was not found in the selected record's XML record. Please delete your XML file or manually add in an id node.", "Delete Income/Expense")
+                    End Try
                 End If
             Next
         End If
@@ -672,7 +707,7 @@ Public Class Form1
         Dim budgetLimitNode As XmlNode = xmlDoc.SelectSingleNode("//budgetLimit")
 
         ' Check if the budgetLimit node exists
-        If budgetLimitNode IsNot Nothing Then
+        Try
             ' Remove the limit node
             budgetLimitNode.RemoveChild(budgetLimitNode.SelectSingleNode("limit"))
 
@@ -686,7 +721,21 @@ Public Class Form1
 
             ' Display a message box to confirm that the budget limit has been set
             MessageBox.Show("Budget limit set successfully!", "Set Budget Limit")
-        End If
+        Catch ex As System.NullReferenceException
+            ' Create a new budgetLimit node and set the inner text of the limit node to the budget limit entered by the user and append it to the root node
+            Dim newBudgetLimitNode As XmlNode = xmlDoc.CreateElement("budgetLimit")
+            Dim newLimitNode As XmlNode = xmlDoc.CreateElement("limit")
+
+            newLimitNode.InnerText = strBudgetLimit
+            newBudgetLimitNode.AppendChild(newLimitNode)
+            rootNode.AppendChild(newBudgetLimitNode)
+
+            ' Save the XML file
+            xmlDoc.Save(xmlFilePath)
+
+            ' Display a message box to confirm that the budget limit has been set
+            MessageBox.Show("Budget limit set successfully!", "Set Budget Limit")
+        End Try
 
         ' Load the financial report for all time periods
         LoadFinancialReport("all")
@@ -1026,16 +1075,21 @@ Public Class Form1
             ' Get the updatedAt node of the current record node
             Dim updatedAtNode As XmlNode = recordNode.SelectSingleNode("updatedAt")
 
-            ' Check if the updatedAt node exists and its inner text contains the selected time period
-            If updatedAtNode IsNot Nothing And (updatedAtNode.InnerText.Contains(strTimePeriod) OrElse strTimePeriod = "all") Then
-                ' Check if the amount node inner text starts with a negative sign
-                If recordNode.SelectSingleNode("amount").InnerText.StartsWith("-") Then
-                    ' Add the amount to the total expenses
-                    dblTotalExpenses = dblTotalExpenses + Val(recordNode.SelectSingleNode("amount").InnerText)
-                Else
-                    ' Add the amount to the total income
-                    dblTotalIncome = dblTotalIncome + Val(recordNode.SelectSingleNode("amount").InnerText)
-                End If
+            ' Check if the inner text of the updatedAt node contains the selected time period
+            If updatedAtNode.InnerText.Contains(strTimePeriod) OrElse strTimePeriod = "all" Then
+                Try
+                    ' Check if the amount node inner text starts with a negative sign
+                    If recordNode.SelectSingleNode("amount").InnerText.StartsWith("-") Then
+                        ' Add the amount to the total expenses
+                        dblTotalExpenses = dblTotalExpenses + Val(recordNode.SelectSingleNode("amount").InnerText)
+                    Else
+                        ' Add the amount to the total income
+                        dblTotalIncome = dblTotalIncome + Val(recordNode.SelectSingleNode("amount").InnerText)
+                    End If
+                Catch ex As System.NullReferenceException
+                    ' Display a message box if the id, updatedAt, category, name or amount node was not found in the selected record's XML record
+                    MessageBox.Show("The id, updatedAt category, name or amount node was not found in the selected record's XML record. Please delete your XML file or manually add in an id, updatedAt, category, name or amount node.", "Load Financial Report")
+                End Try
             End If
         Next
 
