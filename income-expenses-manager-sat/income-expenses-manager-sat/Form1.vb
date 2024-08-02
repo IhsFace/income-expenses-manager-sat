@@ -805,7 +805,7 @@ Public Class Form1
                 ' Check if the selected node based on the sort option is equal to the current index of the integer array
                 If recordNode.SelectSingleNode(strSortOption).InnerText = intNbrsArray(intArrayIndex) Then
                     ' Add the record to the list box
-                    lstDisplay.Items.Add(recordNode.SelectSingleNode("id").InnerText & ": $" & recordNode.SelectSingleNode("amount").InnerText)
+                    lstDisplay.Items.Add(recordNode.SelectSingleNode("id").InnerText & ": " & recordNode.SelectSingleNode("name").InnerText & " - " & FormatCurrency(recordNode.SelectSingleNode("amount").InnerText))
                 End If
             Next
         Next
@@ -863,7 +863,7 @@ Public Class Form1
             Dim selectedNode As XmlNode = recordNode.SelectSingleNode(strSearchRequestType)
 
             ' Set each index of the integer array to the value of the selected node and increment the current index
-            intNbrsArray(intCurrentIndex) = (Val(selectedNode.InnerText))
+            intNbrsArray(intCurrentIndex) = Val(selectedNode.InnerText)
             intCurrentIndex = intCurrentIndex + 1
         Next
 
@@ -901,7 +901,7 @@ Public Class Form1
                 ' Check if the selected node based on the search request type is equal to the search request item
                 If recordNode.SelectSingleNode(strSearchRequestType).InnerText = strSearchRequestItem Then
                     ' Add the record to the list box
-                    lstDisplay.Items.Add(recordNode.SelectSingleNode("id").InnerText & ": $" & recordNode.SelectSingleNode("amount").InnerText)
+                    lstDisplay.Items.Add(recordNode.SelectSingleNode("id").InnerText & ": " & recordNode.SelectSingleNode("name").InnerText & " - " & FormatCurrency(recordNode.SelectSingleNode("amount").InnerText))
                 End If
             Next
         Else
@@ -996,7 +996,7 @@ Public Class Form1
             ' Check if the selected category is "All" or the category node inner text is equal to the selected category
             If cbxCategory.SelectedItem = "All" Or recordNode.SelectSingleNode("category").InnerText = cbxCategory.SelectedItem Then
                 ' Add the record to the list box and increment the displayed records counter
-                lstDisplay.Items.Add(recordNode.SelectSingleNode("id").InnerText & ": " & recordNode.SelectSingleNode("name").InnerText & " - $" & recordNode.SelectSingleNode("amount").InnerText)
+                lstDisplay.Items.Add(recordNode.SelectSingleNode("id").InnerText & ": " & recordNode.SelectSingleNode("name").InnerText & " - " & FormatCurrency(recordNode.SelectSingleNode("amount").InnerText))
                 intDisplayedRecords = intDisplayedRecords + 1
             End If
         Next
