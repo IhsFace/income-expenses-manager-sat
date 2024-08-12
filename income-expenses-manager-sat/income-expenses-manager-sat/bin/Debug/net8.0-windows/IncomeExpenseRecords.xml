@@ -8,26 +8,10 @@
   </category>
   <record>
     <id>1</id>
-    <createdAt>29/07/2024 23:16:23</createdAt>
-    <updatedAt>29/07/2024 23:16:23</updatedAt>
+    <createdAt>12/08/2024 18:48:42</createdAt>
+    <updatedAt>12/08/2024 18:48:42</updatedAt>
     <category>Category</category>
-    <name>First</name>
+    <name>Record</name>
     <amount>100</amount>
-  </record>
-  <record>
-    <id>2</id>
-    <createdAt>29/07/2024 23:16:29</createdAt>
-    <updatedAt>29/07/2024 23:16:29</updatedAt>
-    <category>Category</category>
-    <name>Second</name>
-    <amount>200</amount>
-  </record>
-  <record>
-    <id>3</id>
-    <createdAt>29/07/2024 23:16:34</createdAt>
-    <updatedAt>29/07/2024 23:16:34</updatedAt>
-    <category>Category</category>
-    <name>Third</name>
-    <amount>300</amount>
   </record>
 </records>

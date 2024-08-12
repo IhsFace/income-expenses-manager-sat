@@ -82,7 +82,7 @@ Public Class Form1
     ' The btnEditCategory_Click event handler is executed when the Edit Category button is clicked
     Private Sub btnEditCategory_Click(sender As Object, e As EventArgs) Handles btnEditCategory.Click
         ' Check if the user has selected a category
-        If cbxCategory.SelectedIndex = -1 Or cbxCategory.SelectedIndex = 0 Then
+        If cbxCategory.SelectedIndex <= 0 Then
             ' Display a message box if the user has not selected a category
             MessageBox.Show("Please select a category!", "Edit Category")
             Return
@@ -162,7 +162,7 @@ Public Class Form1
     ' The btnDeleteCategory_Click event handler is executed when the Delete Category button is clicked
     Private Sub btnDeleteCategory_Click(sender As Object, e As EventArgs) Handles btnDeleteCategory.Click
         ' Check if the user has selected a category
-        If cbxCategory.SelectedIndex = -1 Or cbxCategory.SelectedIndex = 0 Then
+        If cbxCategory.SelectedIndex <= 0 Then
             ' Display a message box if the user has not selected a category
             MessageBox.Show("Please select a category!", "Delete Category")
             Return
@@ -236,6 +236,13 @@ Public Class Form1
         Dim strExpense As String = LCase(txtExpense.Text)
         Dim strIncomeExpense As String
 
+        ' Check if the user has selected a category
+        If cbxCategory.SelectedIndex <= 0 Then
+            ' Display a message box if the user has not selected a category
+            MessageBox.Show("Please select a category!", "Add Income/Expense")
+            Return
+        End If
+
         ' Check if the user has entered a name
         If String.IsNullOrWhiteSpace(strName) Then
             ' Display a message box if the user has not entered a name
@@ -265,13 +272,6 @@ Public Class Form1
                 Return
         End Select
 
-        ' Check if the user has selected a category
-        If cbxCategory.SelectedIndex = -1 Or cbxCategory.SelectedIndex = 0 Then
-            ' Display a message box if the user has not selected a category
-            MessageBox.Show("Please select a category!", "Add Income/Expense")
-            Return
-        End If
-
         ' Check if the amount entered by the user is numeric
         If Not IsNumeric(strIncomeExpense) Then
             ' Display a message box if the user has not entered a numeric amount
@@ -290,13 +290,13 @@ Public Class Form1
         ' Get the limit from the limit node and declare the boolean variable to store whether the budget limit has been exceeded
         Dim dblBudgetLimit As Double = budgetLimitNode.SelectSingleNode("limit").InnerText
         Dim blnExceededLimit As Boolean = False
-        Dim dblNetIncome As Double
+        Dim dblTotalExpenses As Double
 
-        ' Load the financial report for all time periods and set it equal to the net income
-        dblNetIncome = LoadFinancialReport("all")
+        ' Load the financial report for all time periods and set it equal to the total expenses
+        dblTotalExpenses = LoadFinancialReport("all")
 
-        ' Check if the net income is greater than the budget limit and the budget limit is not 0
-        If dblNetIncome > dblBudgetLimit And dblBudgetLimit <> 0 Then
+        ' Check if the total expenses are greater than the budget limit and the budget limit is not 0
+        If dblTotalExpenses > dblBudgetLimit And dblBudgetLimit <> 0 Then
             ' Set the boolean variable to true if the budget limit has been exceeded
             blnExceededLimit = True
         End If
@@ -361,14 +361,14 @@ Public Class Form1
         ' Save the XML file
         xmlDoc.Save(xmlFilePath)
 
-        ' Load the financial report for all time periods and set it equal to the net income
-        dblNetIncome = LoadFinancialReport("all")
+        ' Load the financial report for all time periods and set it equal to the total expenses
+        dblTotalExpenses = LoadFinancialReport("all")
 
-        ' Check if the budget limit has been exceeded and the net income is greater than the budget limit and the budget limit is not 0
-        If Not blnExceededLimit And dblNetIncome > dblBudgetLimit And dblBudgetLimit <> 0 Then
+        ' Check if the budget limit has been exceeded and the total expenses are greater than the budget limit and the budget limit is not 0
+        If Not blnExceededLimit And dblTotalExpenses > dblBudgetLimit And dblBudgetLimit <> 0 Then
             ' Display a message box if the budget limit has been exceeded
             MessageBox.Show("Budget limit exceeded!", "Add Income/Expense")
-        ElseIf blnExceededLimit And dblNetIncome <= dblBudgetLimit And dblBudgetLimit <> 0 Then
+        ElseIf blnExceededLimit And dblTotalExpenses <= dblBudgetLimit And dblBudgetLimit <> 0 Then
             ' Display a message box if the budget limit is no longer exceeded
             MessageBox.Show("Budget limit no longer exceeded!", "Add Income/Expense")
         End If
@@ -507,13 +507,13 @@ Public Class Form1
             ' Get the limit from the limit node and declare the boolean variable to store whether the budget limit has been exceeded
             Dim dblBudgetLimit As Double = budgetLimitNode.SelectSingleNode("limit").InnerText
             Dim blnExceededLimit As Boolean = False
-            Dim dblNetIncome As Double
+            Dim dblTotalExpenses As Double
 
-            ' Load the financial report for all time periods and set it equal to the net income
-            dblNetIncome = LoadFinancialReport("all")
+            ' Load the financial report for all time periods and set it equal to the total expenses
+            dblTotalExpenses = LoadFinancialReport("all")
 
-            ' Check if the net income is greater than the budget limit and the budget limit is not 0
-            If dblNetIncome > dblBudgetLimit And dblBudgetLimit <> 0 Then
+            ' Check if the total expenses are greater than the budget limit and the budget limit is not 0
+            If dblTotalExpenses > dblBudgetLimit And dblBudgetLimit <> 0 Then
                 ' Set the boolean variable to true if the budget limit has been exceeded
                 blnExceededLimit = True
             End If
@@ -565,14 +565,14 @@ Public Class Form1
                         ' Save the XML file
                         xmlDoc.Save(xmlFilePath)
 
-                        ' Load the financial report for all time periods and set it equal to the net income
-                        dblNetIncome = LoadFinancialReport("all")
+                        ' Load the financial report for all time periods and set it equal to the total expenses
+                        dblTotalExpenses = LoadFinancialReport("all")
 
-                        ' Check if the budget limit has been exceeded and the net income is greater than the budget limit and the budget limit is not 0
-                        If Not blnExceededLimit And dblNetIncome > dblBudgetLimit And dblBudgetLimit <> 0 Then
+                        ' Check if the budget limit has been exceeded and the total expenses are greater than the budget limit and the budget limit is not 0
+                        If Not blnExceededLimit And dblTotalExpenses > dblBudgetLimit And dblBudgetLimit <> 0 Then
                             ' Display a message box if the budget limit has been exceeded
                             MessageBox.Show("Budget limit exceeded!", "Edit Income/Expense")
-                        ElseIf blnExceededLimit And dblNetIncome <= dblBudgetLimit And dblBudgetLimit <> 0 Then
+                        ElseIf blnExceededLimit And dblTotalExpenses <= dblBudgetLimit And dblBudgetLimit <> 0 Then
                             ' Display a message box if the budget limit is no longer exceeded
                             MessageBox.Show("Budget limit no longer exceeded!", "Edit Income/Expense")
                         End If
@@ -635,13 +635,13 @@ Public Class Form1
             ' Get the limit from the limit node and declare the boolean variable to store whether the budget limit has been exceeded
             Dim dblBudgetLimit As Double = budgetLimitNode.SelectSingleNode("limit").InnerText
             Dim blnExceededLimit As Boolean = False
-            Dim dblNetIncome As Double
+            Dim dblTotalExpenses As Double
 
-            ' Load the financial report for all time periods and set it equal to the net income
-            dblNetIncome = LoadFinancialReport("all")
+            ' Load the financial report for all time periods and set it equal to the total expenses
+            dblTotalExpenses = LoadFinancialReport("all")
 
-            ' Check if the net income is greater than the budget limit and the budget limit is not 0
-            If dblNetIncome > dblBudgetLimit And dblBudgetLimit <> 0 Then
+            ' Check if the total expenses are greater than the budget limit and the budget limit is not 0
+            If dblTotalExpenses > dblBudgetLimit And dblBudgetLimit <> 0 Then
                 ' Set the boolean variable to true if the budget limit has been exceeded
                 blnExceededLimit = True
             End If
@@ -660,14 +660,14 @@ Public Class Form1
                         ' Save the XML file
                         xmlDoc.Save(xmlFilePath)
 
-                        ' Load the financial report for all time periods and set it equal to the net income
-                        dblNetIncome = LoadFinancialReport("all")
+                        ' Load the financial report for all time periods and set it equal to the total expenses
+                        dblTotalExpenses = LoadFinancialReport("all")
 
-                        ' Check if the budget limit has been exceeded and the net income is greater than the budget limit and the budget limit is not 0
-                        If Not blnExceededLimit And dblNetIncome > dblBudgetLimit And dblBudgetLimit <> 0 Then
+                        ' Check if the budget limit has been exceeded and the total expenses are greater than the budget limit and the budget limit is not 0
+                        If Not blnExceededLimit And dblTotalExpenses > dblBudgetLimit And dblBudgetLimit <> 0 Then
                             ' Display a message box if the budget limit has been exceeded
                             MessageBox.Show("Budget limit exceeded!", "Delete Income/Expense")
-                        ElseIf blnExceededLimit And dblNetIncome <= dblBudgetLimit And dblBudgetLimit <> 0 Then
+                        ElseIf blnExceededLimit And dblTotalExpenses <= dblBudgetLimit And dblBudgetLimit <> 0 Then
                             ' Display a message box if the budget limit is no longer exceeded
                             MessageBox.Show("Budget limit no longer exceeded!", "Delete Income/Expense")
                         End If
@@ -699,6 +699,13 @@ Public Class Form1
         If Not IsNumeric(strBudgetLimit) Then
             ' Display a message box if the user has not entered a numeric budget limit
             MessageBox.Show("Please enter a numeric budget limit!", "Set Budget Limit")
+            Return
+        End If
+
+        ' Check if the budget limit entered by the user is negative
+        If Val(strBudgetLimit) < 0 Then
+            ' Display a message box if the user has entered a negative budget limit
+            MessageBox.Show("Please enter a positive budget limit!", "Set Budget Limit")
             Return
         End If
 
@@ -854,7 +861,7 @@ Public Class Form1
                 ' Check if the selected node based on the sort option is equal to the current index of the integer array
                 If recordNode.SelectSingleNode(strSortOption).InnerText = intNbrsArray(intArrayIndex) Then
                     ' Add the record to the list box
-                    lstDisplay.Items.Add(recordNode.SelectSingleNode("id").InnerText & ": " & recordNode.SelectSingleNode("name").InnerText & " - " & FormatCurrency(recordNode.SelectSingleNode("amount").InnerText))
+                    lstDisplay.Items.Add(recordNode.SelectSingleNode("id").InnerText & ": " & recordNode.SelectSingleNode("name").InnerText & ": " & FormatCurrency(recordNode.SelectSingleNode("amount").InnerText))
                 End If
             Next
         Next
@@ -950,7 +957,7 @@ Public Class Form1
                 ' Check if the selected node based on the search request type is equal to the search request item
                 If recordNode.SelectSingleNode(strSearchRequestType).InnerText = strSearchRequestItem Then
                     ' Add the record to the list box
-                    lstDisplay.Items.Add(recordNode.SelectSingleNode("id").InnerText & ": " & recordNode.SelectSingleNode("name").InnerText & " - " & FormatCurrency(recordNode.SelectSingleNode("amount").InnerText))
+                    lstDisplay.Items.Add(recordNode.SelectSingleNode("id").InnerText & ": " & recordNode.SelectSingleNode("name").InnerText & ": " & FormatCurrency(recordNode.SelectSingleNode("amount").InnerText))
                 End If
             Next
         Else
@@ -968,7 +975,7 @@ Public Class Form1
     ' The btnViewReport_Click event handler is executed when the View Report button is clicked
     Private Sub btnViewReport_Click(sender As Object, e As EventArgs) Handles btnViewReport.Click
         ' Display an input box to get the year for the financial report
-        Dim strTimePeriod As String = LCase(InputBox("Enter the year for the financial report (e.g. All, 2024):", "View Report", "2024"))
+        Dim strTimePeriod As String = LCase(InputBox("Enter the year for the financial report (e.g. All, 2024):", "View Report", "All"))
 
         ' Check if the user has entered a year
         If String.IsNullOrWhiteSpace(strTimePeriod) Then
@@ -1045,7 +1052,7 @@ Public Class Form1
             ' Check if the selected category is "All" or the category node inner text is equal to the selected category
             If cbxCategory.SelectedItem = "All" Or recordNode.SelectSingleNode("category").InnerText = cbxCategory.SelectedItem Then
                 ' Add the record to the list box and increment the displayed records counter
-                lstDisplay.Items.Add(recordNode.SelectSingleNode("id").InnerText & ": " & recordNode.SelectSingleNode("name").InnerText & " - " & FormatCurrency(recordNode.SelectSingleNode("amount").InnerText))
+                lstDisplay.Items.Add(recordNode.SelectSingleNode("id").InnerText & ": " & recordNode.SelectSingleNode("name").InnerText & ": " & FormatCurrency(recordNode.SelectSingleNode("amount").InnerText))
                 intDisplayedRecords = intDisplayedRecords + 1
             End If
         Next
@@ -1097,21 +1104,21 @@ Public Class Form1
         dblNetIncome = dblTotalIncome + dblTotalExpenses
 
         ' Add the financial report to the list box
-        lstDisplay.Items.Add("Total Income: $" & dblTotalIncome)
-        lstDisplay.Items.Add("Total Expenses: $" & dblTotalExpenses)
-        lstDisplay.Items.Add("Net Income: $" & dblNetIncome)
+        lstDisplay.Items.Add("Total Income: " & FormatCurrency(dblTotalIncome))
+        lstDisplay.Items.Add("Total Expenses: " & FormatCurrency(Math.Abs(dblTotalExpenses)))
+        lstDisplay.Items.Add("Net Income: " & FormatCurrency(dblNetIncome))
 
         If dblBudgetLimit = 0 Then
             lstDisplay.Items.Add("Budget Limit: None")
             lstDisplay.Items.Add("Remaining Budget: No Budget")
         ElseIf dblBudgetLimit <> 0 Then
-            lstDisplay.Items.Add("Budget Limit: $" & dblBudgetLimit)
-            lstDisplay.Items.Add("Remaining Budget: $" & (dblBudgetLimit - dblNetIncome))
+            lstDisplay.Items.Add("Budget Limit: " & FormatCurrency(dblBudgetLimit))
+            lstDisplay.Items.Add("Remaining Budget: " & FormatCurrency((dblBudgetLimit + dblTotalExpenses)))
         End If
 
         lstDisplay.Items.Add("Time Period: " & strTimePeriod)
 
-        ' Return the net income
-        Return dblNetIncome
+        ' Return the total expenses
+        Return Math.Abs(dblTotalExpenses)
     End Function
 End Class
