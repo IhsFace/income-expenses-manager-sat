@@ -3,15 +3,4 @@
   <budgetLimit>
     <limit>0</limit>
   </budgetLimit>
-  <category>
-    <name>Category</name>
-  </category>
-  <record>
-    <id>1</id>
-    <createdAt>12/08/2024 18:48:42</createdAt>
-    <updatedAt>12/08/2024 18:48:42</updatedAt>
-    <category>Category</category>
-    <name>Record</name>
-    <amount>100</amount>
-  </record>
 </records>

@@ -16,6 +16,24 @@ Public Class Form1
 
     ' The Form1_Load event handler is executed when the form is loaded
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        ' Set the StartPosition to Manual
+        Me.StartPosition = FormStartPosition.Manual
+
+        ' Get the screen dimensions
+        Dim screenWidth As Integer = Screen.PrimaryScreen.Bounds.Width
+        Dim screenHeight As Integer = Screen.PrimaryScreen.Bounds.Height
+
+        ' Get the form dimensions
+        Dim formWidth As Integer = Me.Width
+        Dim formHeight As Integer = Me.Height
+
+        ' Calculate the center position
+        Dim xPos As Integer = (screenWidth - formWidth) \ 2
+        Dim yPos As Integer = (screenHeight - formHeight) \ 2
+
+        ' Set the form's location to the calculated center position
+        Me.Location = New Point(xPos, yPos)
+
         ' Check if the XML file exists
         If System.IO.File.Exists(xmlFilePath) Then
             ' Load the XML file
@@ -463,6 +481,13 @@ Public Class Form1
             Dim strIncome As String = LCase(txtIncome.Text)
             Dim strExpense As String = LCase(txtExpense.Text)
             Dim strIncomeExpense As String
+
+            ' Check if the user has selected a category
+            If cbxCategory.SelectedIndex <= 0 Then
+                ' Display a message box if the user has not selected a category
+                MessageBox.Show("Please select a category!", "Edit Income/Expense")
+                Return
+            End If
 
             ' Check if the user has entered a name
             If String.IsNullOrWhiteSpace(strName) Then

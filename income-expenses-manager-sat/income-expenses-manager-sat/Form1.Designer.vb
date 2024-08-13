@@ -55,7 +55,7 @@ Partial Class Form1
         lblTitle.ForeColor = SystemColors.Control
         lblTitle.Location = New Point(50, 50)
         lblTitle.Name = "lblTitle"
-        lblTitle.Size = New Size(744, 60)
+        lblTitle.Size = New Size(573, 46)
         lblTitle.TabIndex = 0
         lblTitle.Text = "INCOME EXPENSES MANAGER"
         ' 
@@ -66,7 +66,7 @@ Partial Class Form1
         lblCategory.ForeColor = SystemColors.Control
         lblCategory.Location = New Point(50, 150)
         lblCategory.Name = "lblCategory"
-        lblCategory.Size = New Size(155, 37)
+        lblCategory.Size = New Size(116, 29)
         lblCategory.TabIndex = 1
         lblCategory.Text = "Category"
         ' 
@@ -77,7 +77,7 @@ Partial Class Form1
         lblIncome.ForeColor = SystemColors.Control
         lblIncome.Location = New Point(50, 300)
         lblIncome.Name = "lblIncome"
-        lblIncome.Size = New Size(127, 37)
+        lblIncome.Size = New Size(97, 29)
         lblIncome.TabIndex = 3
         lblIncome.Text = "Income"
         ' 
@@ -88,30 +88,31 @@ Partial Class Form1
         lblSelectedRecord.ForeColor = SystemColors.Control
         lblSelectedRecord.Location = New Point(50, 450)
         lblSelectedRecord.Name = "lblSelectedRecord"
-        lblSelectedRecord.Size = New Size(166, 37)
+        lblSelectedRecord.Size = New Size(126, 29)
         lblSelectedRecord.TabIndex = 5
         lblSelectedRecord.Text = "Record ID"
         ' 
         ' cbxCategory
         ' 
+        cbxCategory.DropDownStyle = ComboBoxStyle.DropDownList
         cbxCategory.FormattingEnabled = True
         cbxCategory.Location = New Point(222, 150)
         cbxCategory.Name = "cbxCategory"
-        cbxCategory.Size = New Size(778, 44)
+        cbxCategory.Size = New Size(778, 35)
         cbxCategory.TabIndex = 6
         ' 
         ' txtIncome
         ' 
         txtIncome.Location = New Point(222, 300)
         txtIncome.Name = "txtIncome"
-        txtIncome.Size = New Size(778, 44)
+        txtIncome.Size = New Size(778, 35)
         txtIncome.TabIndex = 8
         ' 
         ' txtSelectedRecord
         ' 
         txtSelectedRecord.Location = New Point(222, 450)
         txtSelectedRecord.Name = "txtSelectedRecord"
-        txtSelectedRecord.Size = New Size(778, 44)
+        txtSelectedRecord.Size = New Size(778, 35)
         txtSelectedRecord.TabIndex = 10
         ' 
         ' btnAddCategory
@@ -254,7 +255,7 @@ Partial Class Form1
         ' 
         lstDisplay.BackColor = Color.PaleGreen
         lstDisplay.FormattingEnabled = True
-        lstDisplay.ItemHeight = 36
+        lstDisplay.ItemHeight = 27
         lstDisplay.Location = New Point(1050, 50)
         lstDisplay.Name = "lstDisplay"
         lstDisplay.Size = New Size(875, 976)
@@ -267,7 +268,7 @@ Partial Class Form1
         lblExpense.ForeColor = SystemColors.Control
         lblExpense.Location = New Point(50, 375)
         lblExpense.Name = "lblExpense"
-        lblExpense.Size = New Size(148, 37)
+        lblExpense.Size = New Size(111, 29)
         lblExpense.TabIndex = 4
         lblExpense.Text = "Expense"
         ' 
@@ -275,7 +276,7 @@ Partial Class Form1
         ' 
         txtExpense.Location = New Point(222, 375)
         txtExpense.Name = "txtExpense"
-        txtExpense.Size = New Size(778, 44)
+        txtExpense.Size = New Size(778, 35)
         txtExpense.TabIndex = 9
         ' 
         ' lblName
@@ -285,7 +286,7 @@ Partial Class Form1
         lblName.ForeColor = SystemColors.Control
         lblName.Location = New Point(50, 225)
         lblName.Name = "lblName"
-        lblName.Size = New Size(103, 37)
+        lblName.Size = New Size(77, 29)
         lblName.TabIndex = 2
         lblName.Text = "Name"
         ' 
@@ -293,12 +294,12 @@ Partial Class Form1
         ' 
         txtName.Location = New Point(222, 225)
         txtName.Name = "txtName"
-        txtName.Size = New Size(778, 44)
+        txtName.Size = New Size(778, 35)
         txtName.TabIndex = 7
         ' 
         ' Form1
         ' 
-        AutoScaleDimensions = New SizeF(18F, 36F)
+        AutoScaleDimensions = New SizeF(14F, 27F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.ForestGreen
         ClientSize = New Size(1974, 1129)
