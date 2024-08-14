@@ -738,6 +738,20 @@ Public Class Form1
         Dim rootNode As XmlNode = xmlDoc.SelectSingleNode("records")
         Dim budgetLimitNode As XmlNode = xmlDoc.SelectSingleNode("//budgetLimit")
 
+        ' Get the limit from the limit node and declare the boolean variable to store whether the budget limit has been exceeded
+        Dim dblBudgetLimit As Double = budgetLimitNode.SelectSingleNode("limit").InnerText
+        Dim blnExceededLimit As Boolean = False
+        Dim dblTotalExpenses As Double
+
+        ' Load the financial report for all time periods and set it equal to the total expenses
+        dblTotalExpenses = LoadFinancialReport("all")
+
+        ' Check if the total expenses are greater than the budget limit and the budget limit is not 0
+        If dblTotalExpenses > dblBudgetLimit And dblBudgetLimit <> 0 Then
+            ' Set the boolean variable to true if the budget limit has been exceeded
+            blnExceededLimit = True
+        End If
+
         ' Check if the budgetLimit node exists
         Try
             ' Remove the limit node
@@ -750,6 +764,15 @@ Public Class Form1
 
             ' Save the XML file
             xmlDoc.Save(xmlFilePath)
+
+            ' Check if the budget limit has been exceeded and the total expenses are greater than the budget limit and the budget limit is not 0
+            If Not blnExceededLimit And dblTotalExpenses > Val(strBudgetLimit) And Val(strBudgetLimit) <> 0 Then
+                ' Display a message box if the budget limit has been exceeded
+                MessageBox.Show("Budget limit exceeded!", "Set Budget Limit")
+            ElseIf blnExceededLimit And dblTotalExpenses <= Val(strBudgetLimit) And Val(strBudgetLimit) <> 0 Then
+                ' Display a message box if the budget limit is no longer exceeded
+                MessageBox.Show("Budget limit no longer exceeded!", "Set Budget Limit")
+            End If
 
             ' Display a message box to confirm that the budget limit has been set
             MessageBox.Show("Budget limit set successfully!", "Set Budget Limit")
@@ -764,6 +787,15 @@ Public Class Form1
 
             ' Save the XML file
             xmlDoc.Save(xmlFilePath)
+
+            ' Check if the budget limit has been exceeded and the total expenses are greater than the budget limit and the budget limit is not 0
+            If Not blnExceededLimit And dblTotalExpenses > Val(strBudgetLimit) And Val(strBudgetLimit) <> 0 Then
+                ' Display a message box if the budget limit has been exceeded
+                MessageBox.Show("Budget limit exceeded!", "Set Budget Limit")
+            ElseIf blnExceededLimit And dblTotalExpenses <= Val(strBudgetLimit) And Val(strBudgetLimit) <> 0 Then
+                ' Display a message box if the budget limit is no longer exceeded
+                MessageBox.Show("Budget limit no longer exceeded!", "Set Budget Limit")
+            End If
 
             ' Display a message box to confirm that the budget limit has been set
             MessageBox.Show("Budget limit set successfully!", "Set Budget Limit")
