@@ -105,6 +105,7 @@ Partial Class Form1
         ' 
         txtIncome.Location = New Point(222, 300)
         txtIncome.Name = "txtIncome"
+        txtIncome.PlaceholderText = "Enter the amount of income you would like to add/edit"
         txtIncome.Size = New Size(778, 35)
         txtIncome.TabIndex = 8
         ' 
@@ -112,6 +113,7 @@ Partial Class Form1
         ' 
         txtSelectedRecord.Location = New Point(222, 450)
         txtSelectedRecord.Name = "txtSelectedRecord"
+        txtSelectedRecord.PlaceholderText = "Enter the ID of the record you would like to select for edit/delete"
         txtSelectedRecord.Size = New Size(778, 35)
         txtSelectedRecord.TabIndex = 10
         ' 
@@ -276,6 +278,7 @@ Partial Class Form1
         ' 
         txtExpense.Location = New Point(222, 375)
         txtExpense.Name = "txtExpense"
+        txtExpense.PlaceholderText = "Enter the amount of expense you would like to add/edit"
         txtExpense.Size = New Size(778, 35)
         txtExpense.TabIndex = 9
         ' 
@@ -294,6 +297,7 @@ Partial Class Form1
         ' 
         txtName.Location = New Point(222, 225)
         txtName.Name = "txtName"
+        txtName.PlaceholderText = "Enter the name of what you would like to add/edit"
         txtName.Size = New Size(778, 35)
         txtName.TabIndex = 7
         ' 
