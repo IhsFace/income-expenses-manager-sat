@@ -20,19 +20,19 @@ Public Class Form1
         Me.StartPosition = FormStartPosition.Manual
 
         ' Get the screen dimensions
-        Dim screenWidth As Integer = Screen.PrimaryScreen.Bounds.Width
-        Dim screenHeight As Integer = Screen.PrimaryScreen.Bounds.Height
+        Dim intScreenWidth As Integer = Screen.PrimaryScreen.Bounds.Width
+        Dim intScreenHeight As Integer = Screen.PrimaryScreen.Bounds.Height
 
         ' Get the form dimensions
-        Dim formWidth As Integer = Me.Width
-        Dim formHeight As Integer = Me.Height
+        Dim intFormWidth As Integer = Me.Width
+        Dim intFormHeight As Integer = Me.Height
 
         ' Calculate the center position
-        Dim xPos As Integer = (screenWidth - formWidth) \ 2
-        Dim yPos As Integer = (screenHeight - formHeight) \ 2
+        Dim intXPos As Integer = (intScreenWidth - intFormWidth) \ 2
+        Dim intYPos As Integer = (intScreenHeight - intFormHeight) \ 2
 
         ' Set the form's location to the calculated center position
-        Me.Location = New Point(xPos, yPos)
+        Me.Location = New Point(intXPos, intYPos)
 
         ' Check if the XML file exists
         If System.IO.File.Exists(xmlFilePath) Then
