@@ -643,6 +643,13 @@ Public Class Form1
             Return
         End If
 
+        ' Check if the record selected by the user is numeric
+        If Not IsNumeric(txtSelectedRecord.Text) Then
+            ' Display a message box if the user has not selected a numeric record
+            MessageBox.Show("Please select a numeric record!", "Delete Income/Expense")
+            Return
+        End If
+
         ' Display an input box to confirm the deletion of the record
         Dim strConfirm As String = LCase(InputBox("Are you sure you want to delete Record " & strSelectedRecord & "? (y or n):", "Delete Income/Expense", "n"))
 
@@ -765,6 +772,9 @@ Public Class Form1
             ' Save the XML file
             xmlDoc.Save(xmlFilePath)
 
+            ' Load the financial report for all time periods
+            LoadFinancialReport("all")
+
             ' Check if the budget limit has been exceeded and the total expenses are greater than the budget limit and the budget limit is not 0
             If Not blnExceededLimit And dblTotalExpenses > Val(strBudgetLimit) And Val(strBudgetLimit) <> 0 Then
                 ' Display a message box if the budget limit has been exceeded
@@ -788,6 +798,9 @@ Public Class Form1
             ' Save the XML file
             xmlDoc.Save(xmlFilePath)
 
+            ' Load the financial report for all time periods
+            LoadFinancialReport("all")
+
             ' Check if the budget limit has been exceeded and the total expenses are greater than the budget limit and the budget limit is not 0
             If Not blnExceededLimit And dblTotalExpenses > Val(strBudgetLimit) And Val(strBudgetLimit) <> 0 Then
                 ' Display a message box if the budget limit has been exceeded
@@ -800,9 +813,6 @@ Public Class Form1
             ' Display a message box to confirm that the budget limit has been set
             MessageBox.Show("Budget limit set successfully!", "Set Budget Limit")
         End Try
-
-        ' Load the financial report for all time periods
-        LoadFinancialReport("all")
     End Sub
 
     ' The btnSortRecords_Click event handler is executed when the Sort Records button is clicked

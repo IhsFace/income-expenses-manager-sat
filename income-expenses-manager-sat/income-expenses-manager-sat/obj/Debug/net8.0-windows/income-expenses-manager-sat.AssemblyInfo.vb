@@ -16,7 +16,7 @@ Imports System.Reflection
 <Assembly: System.Reflection.AssemblyCompanyAttribute("income-expenses-manager-sat"),  _
  Assembly: System.Reflection.AssemblyConfigurationAttribute("Debug"),  _
  Assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0"),  _
- Assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+19279b14dfe76236088d3d53fbcf7bc23716d6b3"),  _
+ Assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+326623c9bf018b4b8909dd714fdb7cf9f83e3de3"),  _
  Assembly: System.Reflection.AssemblyProductAttribute("income-expenses-manager-sat"),  _
  Assembly: System.Reflection.AssemblyTitleAttribute("income-expenses-manager-sat"),  _
  Assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0"),  _
